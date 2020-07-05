@@ -8,20 +8,20 @@
 
         <link rel="stylesheet"
               href="{{  mix( '/css/app.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
         <!-- Styles -->
 
     </head>
     <body>
-    <main class="content container is-fluid" id="app">
+    <main class="content" id="app">
         @include('includes.header')
 
-        <div class="columns is-ancestor">
-            @include('includes.left-sidebar')
-            <div class="column is-parent is-4 is-offset-1">
+        <div class="container-fluid">
+            <div class="col-md-12">
                 <router-view></router-view>
             </div>
-            @include('includes.right-sidebar')
         </div>
+
         @include('includes.footer')
     </main>
         <script src="{{ mix('/js/app.js') }}"></script>

@@ -17,12 +17,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app" class="container is-fluid">
+    <div id="app" class="container-fluid">
         @include('includes.header')
-            <main class="mt-20 columns is-ancestor is-offset-6">
-                @include('includes.left-sidebar')
+            <main class="col-md-12">
                 @yield('content')
-                @include('includes.right-sidebar')
             </main>
         @include('includes.footer')
     </div>

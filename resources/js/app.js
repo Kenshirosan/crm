@@ -1,4 +1,6 @@
 require('./bootstrap');
+import Vuex from 'vuex';
+import store from './store';
 import VueRouter from 'vue-router';
 import router from './routes';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -10,6 +12,7 @@ library.add(faUserSecret, faEnvelope, faAddressBook, faUser, faUserLock);
 
 window.Vue = require('vue');
 Vue.use(VueRouter);
+Vue.use(Vuex);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,5 +39,6 @@ Vue.component('cities', require('./components/Cities.vue').default);
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store: new Vuex.Store(store),
 });

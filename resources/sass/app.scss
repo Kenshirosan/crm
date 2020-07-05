@@ -1,5 +1,5 @@
 @import 'variables';
-@import '~bulma/bulma.sass';
+//@import '~bootstrap';
 
 body {
     background-color: $body-bg;
@@ -33,4 +33,6 @@ ul, li {
 .mb-20 {
     margin-bottom: 20px;
 }
+
+
 
