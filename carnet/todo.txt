@@ -1,0 +1,7 @@
+un employee a un role
+selon ce role il peut effectuer certaines actions:
+
+owner: peut tout faire.
+manager: peut cru sur employee et utilisateur, sauf owner.
+employee: editer un contact ou creer un contact.
+
