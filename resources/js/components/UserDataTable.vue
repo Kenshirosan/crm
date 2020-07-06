@@ -2,9 +2,10 @@
     <tr>
         <td
             v-for="(value, name) of contact"
-            v-if="name !== 'updated_at' && name !== 'created_at' && name !== 'id' && name !== 'email_verified_at'"
+            v-if="name !== 'updated_at' && name !== 'created_at' && name !== 'id' && name !== 'addresses' && name !==
+             'email_verified_at' && name !== 'has_ordered'"
         >
-            {{ value }}
+            <p>{{ value }}</p>
         </td>
         <td v-else-if="name === 'id'">
             <router-link
@@ -12,15 +13,15 @@
                 v-if="name === 'id'">{{ value}}
             </router-link>
         </td>
-
         <td v-else-if="name === 'email_verified_at'">
-            {{ value | emailVerified }}
+            <p>{{ value | emailVerified }}</p>
         </td>
-
+        <td v-else-if="name === 'has_ordered'">
+            <p>{{ value | translate }}</p>
+        </td>
         <td v-else-if="name === 'created_at'">
-            <div v-html="created_at"></div>
+            <p>{{ value | moment }}</p>
         </td>
-
         <td v-else-if="name === 'updated_at'">
             <div v-html="updated_at"></div>
         </td>
@@ -46,16 +47,14 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex';
+    import { mapMutations, mapState, mapFilters } from 'vuex';
     import moment from 'moment';
     import events from '../events';
 
     export default {
-        name: "DataTable",
+        name: "UserDataTable",
 
         mixins: [events],
-
-        props: ['contact', 'index'],
 
         data() {
             return {
@@ -90,15 +89,19 @@
             }
         },
 
+        computed: {
+            ...mapState(['contact']),
+        },
+
         methods: {
             ...mapMutations(['deleteOneContact']),
 
             refreshCreated() {
-                this.created_at = moment(this.contact.created_at).fromNow();
+                this.created_at = `<p>${moment(this.contact.created_at).fromNow()}</p>`;
             },
 
             refreshUpdated() {
-                return this.updated_at =  this.contact.updated_at ? moment(this.contact.updated_at).fromNow() : '';
+                return this.updated_at =  this.contact.updated_at ? `</p>${moment(this.contact.updated_at).fromNow()}</p>` : '';
             },
 
             refreshDates() {
@@ -139,6 +142,10 @@
     tr.is-active {
         transform-origin: left;
         opacity: 1;
+    }
+
+    tr p {
+        transform: skew(5deg);
     }
 
     tr.is-active:nth-child(even) {

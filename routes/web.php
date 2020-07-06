@@ -7,7 +7,7 @@ Route::middleware(['auth', 'can:edit_user'])->group(function () {
 
     Route::get('/', 'PagesController@index');
     Route::get('/users', 'UsersController@index')->name('home');
-    Route::get('/user/{email}', 'UsersController@show')->name('user');
+    Route::get('/user/{id}', 'UsersController@show')->name('user');
 
     Route::post('/create/address', 'AddressesController@store');
     Route::patch('/update/address', 'AddressesController@update');

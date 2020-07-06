@@ -6,9 +6,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>ZipCode</th>
+            <th>Email Verifie</th>
             <th>Creer</th>
             <th>Mis a jour</th>
             <th>Editer</th>

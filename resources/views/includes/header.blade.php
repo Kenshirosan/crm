@@ -1,7 +1,7 @@
 <header class="mb-5-percent">
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <router-link class="navbar-brand" to="/">
                 <img
                     alt="Vue logo"
                     src="./img/logo.png"
@@ -11,7 +11,7 @@
                     loading="lazy"
                 />
                     Carnet d'addresses
-            </a>
+            </router-link>
             @if (Route::has('login'))
             <div class="navbar-end">
                 <div class="navbar-item">

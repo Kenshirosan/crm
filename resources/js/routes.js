@@ -3,11 +3,13 @@ import VueRouter from 'vue-router';
 let routes = [
     {
         path: '/',
+        name: 'users',
         component: require('./views/Home').default,
     },
     {
-        path: '/user/:email',
-        component: require('./components/AddressForm').default,
+        path: '/user/:id',
+        name: 'user',
+        component: require('./components/User').default,
     },
 ];
 

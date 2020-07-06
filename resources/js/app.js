@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import store from './store';
 import VueRouter from 'vue-router';
 import router from './routes';
+import moment from 'moment';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret, faEnvelope, faAddressBook, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -36,6 +37,29 @@ Vue.component('cities', require('./components/Cities.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.filter('moment', (timestamp) => {
+    if (!timestamp) return '';
+    return moment(timestamp).fromNow();
+});
+
+Vue.filter('translate', (string) => {
+    return string === false ? 'Non' : 'Oui';
+});
+
+Vue.filter('emailVerified', (timestamp) => {
+    if (!timestamp) return 'Utilisateur non verifie';
+
+    return moment(timestamp).fromNow();
+});
+
+Vue.filter('json', (string) => {
+    if (!string) return '';
+
+    let json =  JSON.parse(string);
+
+    return json.name
+});
 
 const app = new Vue({
     el: '#app',

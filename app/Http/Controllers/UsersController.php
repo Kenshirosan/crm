@@ -12,35 +12,27 @@ class UsersController extends Controller
     {
         $users = DB::select('
             SELECT
-                u.id,
-                u.name,
-                u.last_name,
-                u.email,
-                CONCAT(a.address_1, " ", a.address_2) AS address,
-                a.city,
-                a.zipcode,
-                u.created_at,
-                u.updated_at, a.created_at, a.updated_at
-            FROM users AS u
-            JOIN address_user AS au
-            ON u.id = au.user_id
-            JOIN addresses AS a
-            ON a.id = au.address_id'
+                id,
+                name,
+                last_name,
+                email,
+                email_verified_at,
+                created_at,
+                updated_at
+            FROM users'
         );
 
-        $count = User::all()->count();
-
         if(request()->wantsJson()) {
-            return response(compact('users', 'count'), 200);
+            return response(compact('users'), 200);
         }
 
         return view('users.index', compact('users'));
     }
 
-    public function show($email)
+    public function show($id)
     {
-        $user = User::where('email', $email)->with('addresses')->firstOrFail();
+        $user = User::where('id', $id)->with('addresses')->firstOrFail();
 
-        return response($user, 200);
+        return response(compact('user'), 200);
     }
 }

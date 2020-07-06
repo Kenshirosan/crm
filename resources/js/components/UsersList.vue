@@ -41,6 +41,10 @@
         computed: {
             ...mapState(['contacts', 'userCount', 'contactsExist']),
             ...mapGetters(['getContacts']),
+
+            userCount() {
+                return this.contacts.length;
+            }
         },
 
         async mounted() {

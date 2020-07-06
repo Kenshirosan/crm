@@ -3,8 +3,9 @@ import axios from 'axios';
 export default {
     state: {
         contacts: [],
-        userCount: Number,
         contact: {},
+        addresses: [],
+        userCount: Number,
         contactsExist: false,
     },
 
@@ -13,14 +14,24 @@ export default {
             await axios.get('/users')
                 .then(res =>  {
                     state.contacts = res.data.users;
-                    state.userCount = res.data.count;
                 })
                 .catch(e => console.log(e.message));
+        },
 
+        getContact: state => async ({id}) => {
+            await axios.get(`/user/${id}`)
+                .then(res =>  {
+                    state.contact = res.data.user;
+                })
+                .catch(e => console.log(e.message));
         },
     },
 
     actions: {
+        getUser({ commit }, { id }) {
+            console.log(id);
+        },
+
         setHasContacts({ commit }) {
             commit('setContactStatus');
         },
