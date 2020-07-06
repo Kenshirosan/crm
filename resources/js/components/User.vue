@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-6">
             <h2>Addresses</h2>
-            <table class="table table-striped table-dark" v-if="contact.addresses.length > 0">
+            <table class="table table-striped table-dark" v-if="addresses && addresses.length > 0">
                 <thead>
                 <tr class="table-primary">
                     <th>Address Number</th>
@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <AddressDataTable v-for="(address, key) in contact.addresses"
+                    <AddressDataTable v-for="(address, key) in addresses"
                                       :address="address" :key="key"></AddressDataTable>
                 </tbody>
             </table>
@@ -61,7 +61,7 @@
         components: { UserDataTable, AddressDataTable },
 
         computed: {
-            ...mapState(['contact']),
+            ...mapState(['contact', 'addresses']),
             ...mapGetters(['getContact']),
         },
 
@@ -70,7 +70,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

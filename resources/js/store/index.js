@@ -22,16 +22,13 @@ export default {
             await axios.get(`/user/${id}`)
                 .then(res =>  {
                     state.contact = res.data.user;
+                    state.addresses = res.data.user.addresses;
                 })
                 .catch(e => console.log(e.message));
         },
     },
 
     actions: {
-        getUser({ commit }, { id }) {
-            console.log(id);
-        },
-
         setHasContacts({ commit }) {
             commit('setContactStatus');
         },

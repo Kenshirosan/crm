@@ -47,9 +47,13 @@
         props: ['address'],
 
         mounted() {
-            console.log(this.address);
             setTimeout(() => {
                 this.$el.classList.add('is-active');
+
+                const bodys = Array.from(document.querySelectorAll('tbody'));
+                bodys.forEach((body) => {
+                    body.classList.add('is-active');
+                })
             }, 100);
         }
     }
