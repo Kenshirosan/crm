@@ -59,16 +59,43 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
+                        <label for="country">Country</label>
+                        <select
+                            class="form-control form-control-lg"
+                            :class="classes"
+                            name="country"
+                            v-model="contact.country"
+                            id="country">
+                            <option value="">Votre Pays</option>
+                            <option v-bind:value="contact.country" v-for="country in countries" :value="country"
+                                    v-html="country.name"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" v-if="states.length > 0">
+                        <label for="state">City</label>
+                        <select
+                            class="form-control form-control-lg"
+                            :class="classes"
+                            name="state"
+                            v-model="contact.state"
+                            id="state">
+                            <option value="">Votre Region</option>
+                            <option v-bind:value="contact.state" v-for="state in states" :value="state"
+                                    v-html="state.name"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" v-if="cities.length > 0">
                         <label for="city">City</label>
-                        <input
-                            type="text"
+                        <select
                             class="form-control form-control-lg"
                             :class="classes"
                             name="city"
                             v-model="contact.city"
-                            id="city"
-                            placeholder="city"
-                        />
+                            id="city">
+                            <option value="">Votre Ville</option>
+                            <option v-bind:value="contact.city" v-for="city in cities" :value="city"
+                                    v-html="city.name"></option>
+                        </select>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="zipcode">Zip</label>
@@ -121,7 +148,7 @@
         },
 
         computed: {
-            ...mapState(['contactsExist', 'contact', 'countries']),
+            ...mapState(['contactsExist', 'contact', 'countries', 'states', 'cities']),
             ...mapGetters(['getCountries']),
 
             classes() {
@@ -143,6 +170,20 @@
             this.getCountries();
         },
 
+        watch: {
+            contact: {
+                handler(payload) {
+                    if(payload.country) {
+                        this.$store.dispatch('getStates', { id: payload.country.id });
+                    }
+                    if(payload.state) {
+                        this.$store.dispatch('getCities', { id: payload.state.id });
+                    }
+                },
+                deep: true,
+            }
+        },
+
         methods: {
             ...mapMutations([
                 'addContact',
@@ -161,6 +202,8 @@
                         : 'Ajouter un contact';
 
                 this.isVisible = !this.isVisible;
+
+                this.$store.dispatch('initStatesAndCities');
 
                 return this.getInitialContact();
             },
@@ -247,7 +290,7 @@
         border-radius: 20px;
         z-index: 100;
         width: 50vw;
-        height: 60vh;
+        height: 70vh;
         position: absolute;
         top: calc(0%);
         left: calc(50% - 479.5px);
@@ -270,6 +313,7 @@
     }
 
     form {
+        height: 100%;
         position: relative;
         top: calc(50% - 240px);
         left: calc(50% - 235px);

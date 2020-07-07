@@ -12122,6 +12122,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12136,7 +12163,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       btnText: 'Ajouter un contact'
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contactsExist', 'contact', 'countries']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCountries']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contactsExist', 'contact', 'countries', 'states', 'cities']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCountries']), {
     classes: function classes() {
       return this.isVisible ? "is-active" : "";
     }
@@ -12159,6 +12186,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getInitialContact();
     this.getCountries();
   },
+  watch: {
+    contact: {
+      handler: function handler(payload) {
+        if (payload.country) {
+          this.$store.dispatch('getStates', {
+            id: payload.country.id
+          });
+        }
+
+        if (payload.state) {
+          this.$store.dispatch('getCities', {
+            id: payload.state.id
+          });
+        }
+      },
+      deep: true
+    }
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addContact', 'getInitialContact', 'persistUpdate']), {
     showForm: function showForm() {
       if (this.editMode) {
@@ -12167,6 +12212,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.btnText = this.btnText === 'Ajouter un contact' ? 'Annuler' : 'Ajouter un contact';
       this.isVisible = !this.isVisible;
+      this.$store.dispatch('initStatesAndCities');
       return this.getInitialContact();
     },
     submitContact: function submitContact() {
@@ -12943,7 +12989,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.form-container[data-v-00905c86] {\n    overflow: hidden;\n    background-color: rgba(24, 28, 58, 0.8);\n    border-radius: 20px;\n    z-index: 100;\n    width: 50vw;\n    height: 60vh;\n    position: absolute;\n    top: calc(0%);\n    left: calc(50% - 479.5px);\n}\n.form-container h3[data-v-00905c86] {\n    position: relative;\n    top: 40px;\n    text-align: center;\n    color: white;\n    transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);\n}\n.form-container[data-v-00905c86], form[data-v-00905c86] {\n    overflow: hidden;\n    transform-origin: center;\n    opacity: 0;\n    transform: rotate(90deg) scale(0.5) translate(100px, -300px);\n    transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);\n}\nform[data-v-00905c86] {\n    position: relative;\n    top: calc(50% - 240px);\n    left: calc(50% - 235px);\n    z-index: 1000;\n}\n.form-container.is-active[data-v-00905c86], form.is-active[data-v-00905c86], form.is-active h3[data-v-00905c86] {\n    z-index: 1000;\n    opacity: 1;\n    transform: rotate(0deg) scale(1);\n}\ninput[data-v-00905c86] {\n    transform: rotateY(90deg);\n    transition: all 500ms ease-in-out 250ms;\n    transform-origin: left;\n    opacity: 0;\n}\ninput.is-active[data-v-00905c86] {\n    opacity: 1;\n    transform: rotate(0deg) scale(1);\n}\n", ""]);
+exports.push([module.i, "\n.form-container[data-v-00905c86] {\n    overflow: hidden;\n    background-color: rgba(24, 28, 58, 0.8);\n    border-radius: 20px;\n    z-index: 100;\n    width: 50vw;\n    height: 70vh;\n    position: absolute;\n    top: calc(0%);\n    left: calc(50% - 479.5px);\n}\n.form-container h3[data-v-00905c86] {\n    position: relative;\n    top: 40px;\n    text-align: center;\n    color: white;\n    transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);\n}\n.form-container[data-v-00905c86], form[data-v-00905c86] {\n    overflow: hidden;\n    transform-origin: center;\n    opacity: 0;\n    transform: rotate(90deg) scale(0.5) translate(100px, -300px);\n    transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);\n}\nform[data-v-00905c86] {\n    height: 100%;\n    position: relative;\n    top: calc(50% - 240px);\n    left: calc(50% - 235px);\n    z-index: 1000;\n}\n.form-container.is-active[data-v-00905c86], form.is-active[data-v-00905c86], form.is-active h3[data-v-00905c86] {\n    z-index: 1000;\n    opacity: 1;\n    transform: rotate(0deg) scale(1);\n}\ninput[data-v-00905c86] {\n    transform: rotateY(90deg);\n    transition: all 500ms ease-in-out 250ms;\n    transform-origin: left;\n    opacity: 0;\n}\ninput.is-active[data-v-00905c86] {\n    opacity: 1;\n    transform: rotate(0deg) scale(1);\n}\n", ""]);
 
 // exports
 
@@ -67143,36 +67189,176 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "form-row" }, [
             _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
+              _c("label", { attrs: { for: "country" } }, [_vm._v("Country")]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.contact.city,
-                    expression: "contact.city"
-                  }
-                ],
-                staticClass: "form-control form-control-lg",
-                class: _vm.classes,
-                attrs: {
-                  type: "text",
-                  name: "city",
-                  id: "city",
-                  placeholder: "city"
-                },
-                domProps: { value: _vm.contact.city },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.contact.country,
+                      expression: "contact.country"
                     }
-                    _vm.$set(_vm.contact, "city", $event.target.value)
+                  ],
+                  staticClass: "form-control form-control-lg",
+                  class: _vm.classes,
+                  attrs: { name: "country", id: "country" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.contact,
+                        "country",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
                   }
-                }
-              })
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [
+                    _vm._v("Votre Pays")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.countries, function(country) {
+                    return _c("option", {
+                      domProps: {
+                        value: _vm.contact.country,
+                        value: country,
+                        innerHTML: _vm._s(country.name)
+                      }
+                    })
+                  })
+                ],
+                2
+              )
             ]),
+            _vm._v(" "),
+            _vm.states.length > 0
+              ? _c("div", { staticClass: "form-group col-md-6" }, [
+                  _c("label", { attrs: { for: "state" } }, [_vm._v("City")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.contact.state,
+                          expression: "contact.state"
+                        }
+                      ],
+                      staticClass: "form-control form-control-lg",
+                      class: _vm.classes,
+                      attrs: { name: "state", id: "state" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.contact,
+                            "state",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Votre Region")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.states, function(state) {
+                        return _c("option", {
+                          domProps: {
+                            value: _vm.contact.state,
+                            value: state,
+                            innerHTML: _vm._s(state.name)
+                          }
+                        })
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cities.length > 0
+              ? _c("div", { staticClass: "form-group col-md-6" }, [
+                  _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.contact.city,
+                          expression: "contact.city"
+                        }
+                      ],
+                      staticClass: "form-control form-control-lg",
+                      class: _vm.classes,
+                      attrs: { name: "city", id: "city" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.contact,
+                            "city",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Votre Ville")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.cities, function(city) {
+                        return _c("option", {
+                          domProps: {
+                            value: _vm.contact.city,
+                            value: city,
+                            innerHTML: _vm._s(city.name)
+                          }
+                        })
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "form-group col-md-2" }, [
               _c("label", { attrs: { for: "zipcode" } }, [_vm._v("Zip")]),
@@ -85503,6 +85689,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     contact: {},
     addresses: [],
     countries: [],
+    cities: [],
+    states: [],
     userCount: Number,
     contactsExist: false
   },
@@ -85585,12 +85773,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref5.commit;
       commit('setContactStatus');
     },
-    deleteContacts: function deleteContacts(_ref6) {
+    initStatesAndCities: function initStatesAndCities(_ref6) {
       var commit = _ref6.commit;
+      commit('initStatesAndCitiesTest');
+    },
+    getStates: function getStates(_ref7, _ref8) {
+      var commit = _ref7.commit;
+      var id = _ref8.id;
+      commit('getStatesTest', id);
+    },
+    getCities: function getCities(_ref9, _ref10) {
+      var commit = _ref9.commit;
+      var id = _ref10.id;
+      commit('getCitiesTest', id);
+    },
+    deleteContacts: function deleteContacts(_ref11) {
+      var commit = _ref11.commit;
       commit('deleteContactsFromLocalStorage');
     },
-    editContact: function editContact(context, _ref7) {
-      var index = _ref7.index;
+    editContact: function editContact(context, _ref12) {
+      var index = _ref12.index;
       context.state.contact = context.state.contacts[index];
     }
   },
@@ -85599,31 +85801,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state.contact = {
         email: '',
         address: '',
+        country: '',
+        state: '',
         city: '',
         zipcode: '',
         created_at: new Date(),
         updated_at: ''
       };
     },
+    initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref13) {
+      var states = _ref13.states,
+          cities = _ref13.cities;
+      states.length = 0;
+      cities.length = 0;
+    },
+    getStatesTest: function getStatesTest(state, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/states/".concat(id)).then(function (res) {
+                  state.states = res.data;
+                })["catch"](function (e) {
+                  return console.log(e.message);
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    getCitiesTest: function getCitiesTest(state, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/cities/".concat(id)).then(function (res) {
+                  state.cities = res.data;
+                })["catch"](function (e) {
+                  return console.log(e.message);
+                });
+
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
     setContactStatus: function setContactStatus(state) {
       return state.contactsExist = state.contacts.length > 0;
     },
-    addContact: function addContact(_ref8, _ref9) {
-      var contacts = _ref8.contacts;
-      var contact = _ref9.contact;
+    addContact: function addContact(_ref14, _ref15) {
+      var contacts = _ref14.contacts;
+      var contact = _ref15.contact;
       contacts.push(contact);
     },
-    persistUpdate: function persistUpdate(_ref10) {
-      var contacts = _ref10.contacts;
+    persistUpdate: function persistUpdate(_ref16) {
+      var contacts = _ref16.contacts;
     },
-    deleteOneContact: function deleteOneContact(_ref11, _ref12) {
-      var contacts = _ref11.contacts;
-      var index = _ref12.index;
+    deleteOneContact: function deleteOneContact(_ref17, _ref18) {
+      var contacts = _ref17.contacts;
+      var index = _ref18.index;
       contacts.splice(index, 1);
       return localStorage.setItem(key, JSON.stringify(contacts));
     },
-    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref13) {
-      var contacts = _ref13.contacts;
+    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref19) {
+      var contacts = _ref19.contacts;
       contacts.length = 0;
     }
   }

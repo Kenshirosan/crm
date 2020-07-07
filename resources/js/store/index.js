@@ -6,6 +6,8 @@ export default {
         contact: {},
         addresses: [],
         countries: [],
+        cities: [],
+        states: [],
         userCount: Number,
         contactsExist: false,
     },
@@ -34,12 +36,25 @@ export default {
                     state.countries = res.data;
                 })
                 .catch(e => console.log(e.message));
-        }
+        },
+
     },
 
     actions: {
         setHasContacts({ commit }) {
             commit('setContactStatus');
+        },
+
+        initStatesAndCities({ commit }) {
+            commit('initStatesAndCitiesTest');
+        },
+
+        getStates({ commit }, { id }) {
+            commit('getStatesTest', id);
+        },
+
+        getCities({ commit }, { id }) {
+            commit('getCitiesTest', id);
         },
 
         deleteContacts({ commit }) {
@@ -56,11 +71,34 @@ export default {
             state.contact = {
                 email: '',
                 address: '',
+                country: '',
+                state: '',
                 city: '',
                 zipcode: '',
                 created_at: new Date(),
                 updated_at: '',
             };
+        },
+
+        initStatesAndCitiesTest({ states, cities }) {
+            states.length = 0;
+            cities.length = 0;
+        },
+
+         async getStatesTest(state, id) {
+            await axios.get(`/states/${id}`)
+                .then(res =>  {
+                    state.states = res.data;
+                })
+                .catch(e => console.log(e.message));
+        },
+
+        async getCitiesTest(state, id) {
+            await axios.get(`/cities/${id}`)
+                .then(res =>  {
+                    state.cities = res.data;
+                })
+                .catch(e => console.log(e.message));
         },
 
         setContactStatus(state) {
