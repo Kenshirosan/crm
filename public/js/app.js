@@ -84378,7 +84378,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./filters */ "./resources/js/filters/index.js");
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -84392,15 +84400,30 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_f
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+var _iterator = _createForOfIteratorHelper(_filters__WEBPACK_IMPORTED_MODULE_8__["default"]),
+    _step;
+
+try {
+  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    var f = _step.value;
+    Vue.filter(f.name, f.execute);
+  }
+  /**
+   * The following block of code may be used to automatically register your
+   * Vue components. It will recursively scan this directory for the Vue
+   * components and automatically register them with their "basename".
+   *
+   * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+   */
+  // const files = require.context('./', true, /\.vue$/i)
+  // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+} catch (err) {
+  _iterator.e(err);
+} finally {
+  _iterator.f();
+}
 
 Vue.component('font-awesome-icon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_7__["FontAwesomeIcon"]);
 Vue.component('countries', __webpack_require__(/*! ./components/Countries.vue */ "./resources/js/components/Countries.vue")["default"]);
@@ -84412,22 +84435,6 @@ Vue.component('cities', __webpack_require__(/*! ./components/Cities.vue */ "./re
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.filter('moment', function (timestamp) {
-  if (!timestamp) return '';
-  return moment__WEBPACK_IMPORTED_MODULE_4___default()(timestamp).fromNow();
-});
-Vue.filter('translate', function (string) {
-  return string === false ? 'Non' : 'Oui';
-});
-Vue.filter('emailVerified', function (timestamp) {
-  if (!timestamp) return 'Utilisateur non verifie';
-  return moment__WEBPACK_IMPORTED_MODULE_4___default()(timestamp).fromNow();
-});
-Vue.filter('json', function (string) {
-  if (!string) return '';
-  var json = JSON.parse(string);
-  return json.name;
-});
 var app = new Vue({
   el: '#app',
   router: _routes__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -85393,6 +85400,52 @@ window.events = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/filters/index.js":
+/*!***************************************!*\
+  !*** ./resources/js/filters/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  name: 'moment',
+  execute: function execute(timestamp) {
+    if (!timestamp) return '';
+    return moment__WEBPACK_IMPORTED_MODULE_0___default()(timestamp).fromNow();
+  }
+}, {
+  name: 'translate',
+  execute: function execute(string) {
+    return string === false ? 'Non' : 'Oui';
+  }
+}, {
+  name: 'emailVerified',
+  execute: function execute(timestamp) {
+    if (!timestamp) return 'Utilisateur non verifie';
+    return moment__WEBPACK_IMPORTED_MODULE_0___default()(timestamp).fromNow();
+  }
+}, {
+  name: 'json',
+  execute: function execute(string) {
+    if (!string) return '';
+    var json = JSON.parse(string);
+    return json.name;
+  }
+}, {
+  name: 'ucfirst',
+  execute: function execute(string) {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase + string.substring(1);
+  }
+}]);
 
 /***/ }),
 
