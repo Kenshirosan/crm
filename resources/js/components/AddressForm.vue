@@ -102,7 +102,7 @@
 </template>
 
 <script>
-    import { mapMutations, mapState } from 'vuex';
+    import { mapMutations, mapState, mapGetters } from 'vuex';
     import events from '../events';
 
     export default {
@@ -121,7 +121,8 @@
         },
 
         computed: {
-            ...mapState(['contactsExist', 'contact']),
+            ...mapState(['contactsExist', 'contact', 'countries']),
+            ...mapGetters(['getCountries']),
 
             classes() {
                 return this.isVisible ? `is-active` : ``;
@@ -139,6 +140,7 @@
 
         mounted() {
             this.getInitialContact();
+            this.getCountries();
         },
 
         methods: {

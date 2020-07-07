@@ -5,6 +5,7 @@ export default {
         contacts: [],
         contact: {},
         addresses: [],
+        countries: [],
         userCount: Number,
         contactsExist: false,
     },
@@ -26,6 +27,14 @@ export default {
                 })
                 .catch(e => console.log(e.message));
         },
+
+        getCountries: state => async () => {
+            await axios.get(`/countries`)
+                .then(res =>  {
+                    state.countries = res.data;
+                })
+                .catch(e => console.log(e.message));
+        }
     },
 
     actions: {

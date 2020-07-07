@@ -12136,7 +12136,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       btnText: 'Ajouter un contact'
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contactsExist', 'contact']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contactsExist', 'contact', 'countries']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCountries']), {
     classes: function classes() {
       return this.isVisible ? "is-active" : "";
     }
@@ -12157,6 +12157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     this.getInitialContact();
+    this.getCountries();
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addContact', 'getInitialContact', 'persistUpdate']), {
     showForm: function showForm() {
@@ -85501,6 +85502,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     contacts: [],
     contact: {},
     addresses: [],
+    countries: [],
     userCount: Number,
     contactsExist: false
   },
@@ -85555,19 +85557,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return _ref3.apply(this, arguments);
         };
       }();
+    },
+    getCountries: function getCountries(state) {
+      return /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/countries").then(function (res) {
+                  state.countries = res.data;
+                })["catch"](function (e) {
+                  return console.log(e.message);
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
     }
   },
   actions: {
-    setHasContacts: function setHasContacts(_ref4) {
-      var commit = _ref4.commit;
+    setHasContacts: function setHasContacts(_ref5) {
+      var commit = _ref5.commit;
       commit('setContactStatus');
     },
-    deleteContacts: function deleteContacts(_ref5) {
-      var commit = _ref5.commit;
+    deleteContacts: function deleteContacts(_ref6) {
+      var commit = _ref6.commit;
       commit('deleteContactsFromLocalStorage');
     },
-    editContact: function editContact(context, _ref6) {
-      var index = _ref6.index;
+    editContact: function editContact(context, _ref7) {
+      var index = _ref7.index;
       context.state.contact = context.state.contacts[index];
     }
   },
@@ -85585,22 +85608,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setContactStatus: function setContactStatus(state) {
       return state.contactsExist = state.contacts.length > 0;
     },
-    addContact: function addContact(_ref7, _ref8) {
-      var contacts = _ref7.contacts;
-      var contact = _ref8.contact;
+    addContact: function addContact(_ref8, _ref9) {
+      var contacts = _ref8.contacts;
+      var contact = _ref9.contact;
       contacts.push(contact);
     },
-    persistUpdate: function persistUpdate(_ref9) {
-      var contacts = _ref9.contacts;
-    },
-    deleteOneContact: function deleteOneContact(_ref10, _ref11) {
+    persistUpdate: function persistUpdate(_ref10) {
       var contacts = _ref10.contacts;
-      var index = _ref11.index;
+    },
+    deleteOneContact: function deleteOneContact(_ref11, _ref12) {
+      var contacts = _ref11.contacts;
+      var index = _ref12.index;
       contacts.splice(index, 1);
       return localStorage.setItem(key, JSON.stringify(contacts));
     },
-    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref12) {
-      var contacts = _ref12.contacts;
+    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref13) {
+      var contacts = _ref13.contacts;
       contacts.length = 0;
     }
   }
