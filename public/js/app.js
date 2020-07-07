@@ -12362,6 +12362,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -12921,7 +12923,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntd[data-v-30d3071b] {\n    border: none;\n}\ntr[data-v-30d3071b] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-30d3071b] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr p[data-v-30d3071b] {\n    transform: skew(5deg);\n}\ntr.is-active[data-v-30d3071b]:nth-child(even) {\n    transform: skew(5deg);\n}\ntr.is-active[data-v-30d3071b]:nth-child(odd) {\n    transform: skew(-5deg);\n}\n", ""]);
+exports.push([module.i, "\ntd[data-v-30d3071b] {\n    border: none;\n}\ntr[data-v-30d3071b] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-30d3071b] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr p[data-v-30d3071b] {\n    transform: skew(5deg);\n}\ntr.is-active[data-v-30d3071b]:nth-child(even) {\n    transform: skew(5deg);\n}\ntr.is-active[data-v-30d3071b]:nth-child(odd) {\n    transform: skew(-5deg);\n}\ntr.is-active:nth-child(even) div[data-v-30d3071b] {\n    transform: skew(-5deg);\n}\ntr.is-active:nth-child(odd) div[data-v-30d3071b] {\n    transform: skew(5deg);\n}\n", ""]);
 
 // exports
 
@@ -12959,7 +12961,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntd[data-v-4b997e69] {\n    border: none;\n}\ntr[data-v-4b997e69] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-4b997e69] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr.is-active[data-v-4b997e69]:nth-child(even) {\n    transform: skew(5deg);\n}\ntr.is-active[data-v-4b997e69]:nth-child(odd) {\n    transform: skew(-5deg);\n}\n\n", ""]);
+exports.push([module.i, "\ntd[data-v-4b997e69] {\n    border: none;\n}\ntr[data-v-4b997e69] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-4b997e69] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr.is-active[data-v-4b997e69]:nth-child(even) {\n    transform: skew(15deg);\n}\ntr.is-active[data-v-4b997e69]:nth-child(odd) {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(even) div[data-v-4b997e69], tr.is-active:nth-child(even) button[data-v-4b997e69] {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(odd) div[data-v-4b997e69], tr.is-active:nth-child(odd) button[data-v-4b997e69] {\n    transform: skew(15deg);\n}\n\n", ""]);
 
 // exports
 
@@ -66902,23 +66904,15 @@ var render = function() {
           key !== "pivot" &&
           key !== "created_at" &&
           key !== "updated_at"
-          ? _c("td", [_vm._v("\n        " + _vm._s(value) + "\n    ")])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(value))])])
           : key === "country"
-          ? _c("td", [
-              _vm._v("\n        " + _vm._s(_vm._f("json")(value)) + "\n    ")
-            ])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(_vm._f("json")(value)))])])
           : key === "state"
-          ? _c("td", [
-              _vm._v("\n        " + _vm._s(_vm._f("json")(value)) + "\n    ")
-            ])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(_vm._f("json")(value)))])])
           : key === "created_at"
-          ? _c("td", [
-              _vm._v("\n        " + _vm._s(_vm._f("moment")(value)) + "\n    ")
-            ])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(_vm._f("moment")(value)))])])
           : key === "updated_at"
-          ? _c("td", [
-              _vm._v("\n        " + _vm._s(_vm._f("moment")(value)) + "\n    ")
-            ])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(_vm._f("moment")(value)))])])
           : _vm._e()
       }),
       _vm._v(" "),
@@ -67331,28 +67325,28 @@ var render = function() {
           name !== "created_at" &&
           name !== "id" &&
           name !== "email_verified_at"
-          ? _c("td", [_vm._v("\n        " + _vm._s(value) + "\n    ")])
+          ? _c("td", [_c("div", [_vm._v(_vm._s(value))])])
           : name === "id"
-          ? _c(
-              "td",
-              [
-                name === "id"
-                  ? _c(
-                      "router-link",
-                      {
-                        attrs: { to: { name: "user", params: { id: value } } }
-                      },
-                      [_vm._v(_vm._s(value) + "\n        ")]
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
+          ? _c("td", [
+              _c(
+                "div",
+                [
+                  name === "id"
+                    ? _c(
+                        "router-link",
+                        {
+                          attrs: { to: { name: "user", params: { id: value } } }
+                        },
+                        [_vm._v(_vm._s(value) + "\n            ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
           : name === "email_verified_at"
           ? _c("td", [
-              _vm._v(
-                "\n        " + _vm._s(_vm._f("emailVerified")(value)) + "\n    "
-              )
+              _c("div", [_vm._v(_vm._s(_vm._f("emailVerified")(value)))])
             ])
           : name === "created_at"
           ? _c("td", [

@@ -4,17 +4,19 @@
             v-for="(value, name) of contact"
             v-if="name !== 'updated_at' && name !== 'created_at' && name !== 'id' && name !== 'email_verified_at'"
         >
-            {{ value }}
+            <div>{{ value }}</div>
         </td>
         <td v-else-if="name === 'id'">
-            <router-link
-                :to="{ name: 'user', params: { id: value }}"
-                v-if="name === 'id'">{{ value}}
-            </router-link>
+            <div>
+                <router-link
+                    :to="{ name: 'user', params: { id: value }}"
+                    v-if="name === 'id'">{{ value}}
+                </router-link>
+            </div>
         </td>
 
         <td v-else-if="name === 'email_verified_at'">
-            {{ value | emailVerified }}
+            <div>{{ value | emailVerified }}</div>
         </td>
 
         <td v-else-if="name === 'created_at'">
@@ -142,11 +144,19 @@
     }
 
     tr.is-active:nth-child(even) {
-        transform: skew(5deg);
+        transform: skew(15deg);
     }
 
     tr.is-active:nth-child(odd) {
-        transform: skew(-5deg);
+        transform: skew(-15deg);
+    }
+
+    tr.is-active:nth-child(even) div, tr.is-active:nth-child(even) button {
+        transform: skew(-15deg);
+    }
+
+    tr.is-active:nth-child(odd) div, tr.is-active:nth-child(odd) button {
+        transform: skew(15deg);
     }
 
 </style>

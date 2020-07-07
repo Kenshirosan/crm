@@ -4,19 +4,19 @@
             v-for="(value, key) of address"
             v-if="key !== 'country' &&  key !== 'state' && key !== 'pivot' && key !=='created_at' && key !==
             'updated_at'">
-            {{ value }}
+            <div>{{ value }}</div>
         </td>
         <td v-else-if="key === 'country'">
-            {{ value | json }}
+            <div>{{ value | json }}</div>
         </td>
         <td v-else-if="key === 'state'">
-            {{ value | json }}
+            <div>{{ value | json }}</div>
         </td>
         <td v-else-if="key === 'created_at'">
-            {{ value | moment }}
+            <div>{{ value | moment }}</div>
         </td>
         <td v-else-if="key === 'updated_at'">
-            {{ value | moment }}
+            <div>{{ value | moment }}</div>
         </td>
 
         <td>
@@ -85,5 +85,13 @@
 
     tr.is-active:nth-child(odd) {
         transform: skew(-5deg);
+    }
+
+    tr.is-active:nth-child(even) div {
+        transform: skew(-5deg);
+    }
+
+    tr.is-active:nth-child(odd) div {
+        transform: skew(5deg);
     }
 </style>
