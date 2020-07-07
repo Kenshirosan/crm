@@ -35,6 +35,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('countries', require('./components/Countries.vue').default);
 Vue.component('states', require('./components/States.vue').default);
 Vue.component('cities', require('./components/Cities.vue').default);
+Vue.component('flash', require('./components/Flash.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

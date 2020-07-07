@@ -6,6 +6,9 @@
             'updated_at'">
             <div>{{ value }}</div>
         </td>
+        <td v-else-if="key === 'id'">
+            <div>{{ value}}</div>
+        </td>
         <td v-else-if="key === 'country'">
             <div>{{ value | json }}</div>
         </td>
@@ -49,11 +52,6 @@
         mounted() {
             setTimeout(() => {
                 this.$el.classList.add('is-active');
-
-                const bodys = Array.from(document.querySelectorAll('tbody'));
-                bodys.forEach((body) => {
-                    body.classList.add('is-active');
-                })
             }, 100);
         }
     }

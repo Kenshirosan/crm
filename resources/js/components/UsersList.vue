@@ -1,10 +1,6 @@
 <template>
-    <div class="app">
+    <div class="app is-active">
         <div class="container mt-10">
-            <section class="form">
-                <AddressForm ref="contactForm"></AddressForm>
-            </section>
-
             <section v-if="contactsExist">
                 <h2>{{ userCount }} utilisateurs</h2>
                 <Table
@@ -15,7 +11,6 @@
             <section class="row" v-else>
                 <h2>Pas de contacts</h2>
             </section>
-            <flash></flash>
         </div>
     </div>
 </template>
@@ -52,9 +47,6 @@
 
             this.$store.dispatch('setHasContacts');
 
-            setTimeout(() => {
-                this.$el.classList.add('is-active');
-            }, 1000);
         },
 
     };

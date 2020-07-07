@@ -39,7 +39,7 @@ class AddressesController extends Controller
 
         $address->user($user);
 
-        return response(['success' => 'address added successfully for ' . $user , 'address' => $address], 200);
+        return response(['message' => 'address added successfully for ' . $user->name], 200);
     }
 
     public function update(Request $request)
@@ -59,7 +59,7 @@ class AddressesController extends Controller
 
         $address->update($request->all());
 
-        return response(['success' => 'address updated successfully for ' . $user, 'address' => $address], 200);
+        return response(['success' => 'address updated successfully for ' . $user, 'address' => $address->toArray()], 200);
     }
 
     public function getCountries()

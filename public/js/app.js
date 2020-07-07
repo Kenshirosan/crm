@@ -11983,6 +11983,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AddressDataTable",
   props: ['address'],
@@ -11991,11 +11994,6 @@ __webpack_require__.r(__webpack_exports__);
 
     setTimeout(function () {
       _this.$el.classList.add('is-active');
-
-      var bodys = Array.from(document.querySelectorAll('tbody'));
-      bodys.forEach(function (body) {
-        body.classList.add('is-active');
-      });
     }, 100);
   }
 });
@@ -12011,8 +12009,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events */ "./resources/js/events/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events */ "./resources/js/events/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -12140,19 +12146,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_events__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_events__WEBPACK_IMPORTED_MODULE_2__["default"]],
   name: 'AddressForm',
   data: function data() {
     return {
@@ -12163,7 +12160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       btnText: 'Ajouter un contact'
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contactsExist', 'contact', 'countries', 'states', 'cities']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getCountries']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['contactsExist', 'address', 'countries', 'states', 'cities', 'message']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getCountries', 'getCountries', 'getContact']), {
     classes: function classes() {
       return this.isVisible ? "is-active" : "";
     }
@@ -12183,11 +12180,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   mounted: function mounted() {
-    this.getInitialContact();
+    this.getInitialAddress();
     this.getCountries();
   },
   watch: {
-    contact: {
+    address: {
       handler: function handler(payload) {
         if (payload.country) {
           this.$store.dispatch('getStates', {
@@ -12204,7 +12201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       deep: true
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addContact', 'getInitialContact', 'persistUpdate']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['addAddress', 'getInitialAddress', 'persistUpdate']), {
     showForm: function showForm() {
       if (this.editMode) {
         return this.resetForm();
@@ -12213,40 +12210,72 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.btnText = this.btnText === 'Ajouter un contact' ? 'Annuler' : 'Ajouter un contact';
       this.isVisible = !this.isVisible;
       this.$store.dispatch('initStatesAndCities');
-      return this.getInitialContact();
+      return this.getInitialAddress();
     },
     submitContact: function submitContact() {
-      this.checkFormFields(this.contact);
+      this.address.user_id = this.$route.params.id;
+      this.checkFormFields(this.address);
 
       if (this.isValidForm) {
-        this.persistForm(this.contact);
+        this.persistForm(this.address);
       }
     },
-    persistForm: function persistForm(contact) {
-      var message = 'Contact successfully updated';
+    persistForm: function persistForm(address) {
+      var _this2 = this;
 
-      if (this.editMode) {
-        contact.updated_at = new Date();
-        this.persistUpdate();
-      } else {
-        this.addContact({
-          contact: contact
-        });
-        this.$store.dispatch('setHasContacts');
-        message = 'Contact successfully created';
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var message;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                message = 'Contact successfully updated';
 
-      this.flash(message);
-      this.resetForm();
+                if (!_this2.editMode) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _this2.persistUpdate();
+
+                _context.next = 9;
+                break;
+
+              case 5:
+                _context.next = 7;
+                return _this2.addAddress(address);
+
+              case 7:
+                _this2.$store.dispatch('setHasContacts');
+
+                message = 'Contact successfully created';
+
+              case 9:
+                _this2.getContact({
+                  id: _this2.$route.params.id
+                }); //TODO: Fix the message issue;
+
+
+                _this2.flash(_this2.message);
+
+                _this2.resetForm();
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     deleteContacts: function deleteContacts() {
       this.$store.dispatch('deleteContacts');
       this.$store.dispatch('setHasContacts');
       this.flash('Contacts successfully deleted', 'primary');
     },
-    checkFormFields: function checkFormFields(contact) {
-      for (var field in contact) {
-        if (contact[field] === '' && field !== 'updated_at') {
+    checkFormFields: function checkFormFields(address) {
+      for (var field in address) {
+        if (address[field] === '') {
           this.isValidForm = false;
           return this.createErrorMessage(field);
         }
@@ -12265,7 +12294,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       element.parentNode.insertBefore(error, element.nextSibling);
     },
     resetForm: function resetForm() {
-      this.getInitialContact();
+      this.getInitialAddress();
       this.editMode = false;
       this.isVisible = false;
       this.btnText = 'Ajouter un contact';
@@ -12605,12 +12634,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     DataTable: _DataTable__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ['contacts'],
-  mounted: function mounted() {
-    setTimeout(function () {
-      document.querySelector('tbody').classList.add('is-active');
-    }, 100);
-  }
+  props: ['contacts']
 });
 
 /***/ }),
@@ -12627,6 +12651,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _UserDataTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserDataTable */ "./resources/js/components/UserDataTable.vue");
 /* harmony import */ var _AddressDataTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddressDataTable */ "./resources/js/components/AddressDataTable.vue");
+/* harmony import */ var _AddressForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddressForm */ "./resources/js/components/AddressForm.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -12685,6 +12710,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -12692,7 +12725,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "User",
   components: {
     UserDataTable: _UserDataTable__WEBPACK_IMPORTED_MODULE_1__["default"],
-    AddressDataTable: _AddressDataTable__WEBPACK_IMPORTED_MODULE_2__["default"]
+    AddressDataTable: _AddressDataTable__WEBPACK_IMPORTED_MODULE_2__["default"],
+    AddressForm: _AddressForm__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['contact', 'addresses']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getContact'])),
   mounted: function mounted() {
@@ -12882,11 +12916,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -12919,11 +12948,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             case 2:
               _this.$store.dispatch('setHasContacts');
 
-              setTimeout(function () {
-                _this.$el.classList.add('is-active');
-              }, 1000);
-
-            case 4:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -66952,6 +66977,8 @@ var render = function() {
           key !== "created_at" &&
           key !== "updated_at"
           ? _c("td", [_c("div", [_vm._v(_vm._s(value))])])
+          : key === "id"
+          ? _c("td", [_c("div", [_vm._v(_vm._s(value))])])
           : key === "country"
           ? _c("td", [_c("div", [_vm._v(_vm._s(_vm._f("json")(value)))])])
           : key === "state"
@@ -67077,23 +67104,7 @@ var render = function() {
               "\n                " + _vm._s(_vm.btnText) + "\n            "
             )
           ]
-        ),
-        _vm._v(" "),
-        _vm.contactsExist
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-xs btn-danger mb-10",
-                attrs: { type: "button", id: "js-clear-storage" },
-                on: { click: _vm.deleteContacts }
-              },
-              [
-                _vm._v(
-                  "\n                Supprimer tous les contacts\n            "
-                )
-              ]
-            )
-          : _vm._e()
+        )
       ])
     ]),
     _vm._v(" "),
@@ -67121,32 +67132,32 @@ var render = function() {
         [
           _c("div", { staticClass: "form-row" }, [
             _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+              _c("label", { attrs: { for: "address_1" } }, [_vm._v("Address")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.contact.email,
-                    expression: "contact.email"
+                    value: _vm.address.address_1,
+                    expression: "address.address_1"
                   }
                 ],
                 staticClass: "form-control form-control-lg",
                 class: _vm.classes,
                 attrs: {
-                  type: "email",
-                  id: "email",
-                  name: "email",
-                  placeholder: "Email"
+                  type: "text",
+                  id: "address_1",
+                  name: "address_1",
+                  placeholder: "1234 Main St"
                 },
-                domProps: { value: _vm.contact.email },
+                domProps: { value: _vm.address.address_1 },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.contact, "email", $event.target.value)
+                    _vm.$set(_vm.address, "address_1", $event.target.value)
                   }
                 }
               })
@@ -67155,32 +67166,34 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "form-row" }, [
             _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", { attrs: { for: "address" } }, [_vm._v("Address")]),
+              _c("label", { attrs: { for: "address_2" } }, [
+                _vm._v("Complement Address")
+              ]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.contact.address,
-                    expression: "contact.address"
+                    value: _vm.address.address_2,
+                    expression: "address.address_2"
                   }
                 ],
                 staticClass: "form-control form-control-lg",
                 class: _vm.classes,
                 attrs: {
                   type: "text",
-                  id: "address",
-                  name: "address",
-                  placeholder: "1234 Main St"
+                  id: "address_2",
+                  name: "address_2",
+                  placeholder: "Bat, etage ..."
                 },
-                domProps: { value: _vm.contact.address },
+                domProps: { value: _vm.address.address_2 },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.contact, "address", $event.target.value)
+                    _vm.$set(_vm.address, "address_2", $event.target.value)
                   }
                 }
               })
@@ -67198,8 +67211,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.contact.country,
-                      expression: "contact.country"
+                      value: _vm.address.country,
+                      expression: "address.country"
                     }
                   ],
                   staticClass: "form-control form-control-lg",
@@ -67216,7 +67229,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.contact,
+                        _vm.address,
                         "country",
                         $event.target.multiple
                           ? $$selectedVal
@@ -67233,7 +67246,7 @@ var render = function() {
                   _vm._l(_vm.countries, function(country) {
                     return _c("option", {
                       domProps: {
-                        value: _vm.contact.country,
+                        value: _vm.address.country,
                         value: country,
                         innerHTML: _vm._s(country.name)
                       }
@@ -67255,8 +67268,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.contact.state,
-                          expression: "contact.state"
+                          value: _vm.address.state,
+                          expression: "address.state"
                         }
                       ],
                       staticClass: "form-control form-control-lg",
@@ -67273,7 +67286,7 @@ var render = function() {
                               return val
                             })
                           _vm.$set(
-                            _vm.contact,
+                            _vm.address,
                             "state",
                             $event.target.multiple
                               ? $$selectedVal
@@ -67290,7 +67303,7 @@ var render = function() {
                       _vm._l(_vm.states, function(state) {
                         return _c("option", {
                           domProps: {
-                            value: _vm.contact.state,
+                            value: _vm.address.state,
                             value: state,
                             innerHTML: _vm._s(state.name)
                           }
@@ -67313,8 +67326,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.contact.city,
-                          expression: "contact.city"
+                          value: _vm.address.city,
+                          expression: "address.city"
                         }
                       ],
                       staticClass: "form-control form-control-lg",
@@ -67331,7 +67344,7 @@ var render = function() {
                               return val
                             })
                           _vm.$set(
-                            _vm.contact,
+                            _vm.address,
                             "city",
                             $event.target.multiple
                               ? $$selectedVal
@@ -67348,8 +67361,8 @@ var render = function() {
                       _vm._l(_vm.cities, function(city) {
                         return _c("option", {
                           domProps: {
-                            value: _vm.contact.city,
-                            value: city,
+                            value: _vm.address.city.name,
+                            value: city.name,
                             innerHTML: _vm._s(city.name)
                           }
                         })
@@ -67368,8 +67381,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.contact.zipcode,
-                    expression: "contact.zipcode"
+                    value: _vm.address.zipcode,
+                    expression: "address.zipcode"
                   }
                 ],
                 staticClass: "form-control form-control-lg",
@@ -67380,13 +67393,13 @@ var render = function() {
                   id: "zipcode",
                   placeholder: "12345"
                 },
-                domProps: { value: _vm.contact.zipcode },
+                domProps: { value: _vm.address.zipcode },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.contact, "zipcode", $event.target.value)
+                    _vm.$set(_vm.address, "zipcode", $event.target.value)
                   }
                 }
               })
@@ -67720,6 +67733,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "tbody",
+      { staticClass: "is-active" },
       _vm._l(_vm.contacts, function(contact, index) {
         return _c("DataTable", {
           key: index,
@@ -67779,36 +67793,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("h2", [_vm._v("User")]),
-      _vm._v(" "),
-      _c("table", { staticClass: "table table-striped table-dark" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("tbody", [_c("UserDataTable")], 1)
-      ])
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "section",
+        { staticClass: "form" },
+        [_c("AddressForm", { ref: "contactForm" })],
+        1
+      )
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("h2", [_vm._v("Addresses")]),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("h2", [_vm._v("User")]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-striped table-dark" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("tbody", { staticClass: "is-active" }, [_c("UserDataTable")], 1)
+        ])
+      ]),
       _vm._v(" "),
-      _vm.addresses && _vm.addresses.length > 0
-        ? _c("table", { staticClass: "table table-striped table-dark" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.addresses, function(address, key) {
-                return _c("AddressDataTable", {
-                  key: key,
-                  attrs: { address: address }
-                })
-              }),
-              1
-            )
-          ])
-        : _c("h2", [_c("strong", [_vm._v("Pas d'addresses enregistrees")])])
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("h2", [_vm._v("Addresses")]),
+        _vm._v(" "),
+        _vm.addresses && _vm.addresses.length > 0
+          ? _c("table", { staticClass: "table table-striped table-dark" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                { staticClass: "is-active" },
+                _vm._l(_vm.addresses, function(address, key) {
+                  return _c("AddressDataTable", {
+                    key: key,
+                    attrs: { address: address }
+                  })
+                }),
+                1
+              )
+            ])
+          : _c("h2", [_c("strong", [_vm._v("Pas d'addresses enregistrees")])])
+      ])
     ])
   ])
 }
@@ -68037,36 +68063,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "app" }, [
-    _c(
-      "div",
-      { staticClass: "container mt-10" },
-      [
-        _c(
-          "section",
-          { staticClass: "form" },
-          [_c("AddressForm", { ref: "contactForm" })],
-          1
-        ),
-        _vm._v(" "),
-        _vm.contactsExist
-          ? _c(
-              "section",
-              [
-                _c("h2", [_vm._v(_vm._s(_vm.userCount) + " utilisateurs")]),
-                _vm._v(" "),
-                _c("Table", { attrs: { contacts: _vm.contacts } })
-              ],
-              1
-            )
-          : _c("section", { staticClass: "row" }, [
-              _c("h2", [_vm._v("Pas de contacts")])
-            ]),
-        _vm._v(" "),
-        _c("flash")
-      ],
-      1
-    )
+  return _c("div", { staticClass: "app is-active" }, [
+    _c("div", { staticClass: "container mt-10" }, [
+      _vm.contactsExist
+        ? _c(
+            "section",
+            [
+              _c("h2", [_vm._v(_vm._s(_vm.userCount) + " utilisateurs")]),
+              _vm._v(" "),
+              _c("Table", { attrs: { contacts: _vm.contacts } })
+            ],
+            1
+          )
+        : _c("section", { staticClass: "row" }, [
+            _c("h2", [_vm._v("Pas de contacts")])
+          ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -84616,6 +84628,7 @@ Vue.component('font-awesome-icon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTE
 Vue.component('countries', __webpack_require__(/*! ./components/Countries.vue */ "./resources/js/components/Countries.vue")["default"]);
 Vue.component('states', __webpack_require__(/*! ./components/States.vue */ "./resources/js/components/States.vue")["default"]);
 Vue.component('cities', __webpack_require__(/*! ./components/Cities.vue */ "./resources/js/components/Cities.vue")["default"]);
+Vue.component('flash', __webpack_require__(/*! ./components/Flash.vue */ "./resources/js/components/Flash.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -85687,6 +85700,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   state: {
     contacts: [],
     contact: {},
+    address: {},
+    message: '',
     addresses: [],
     countries: [],
     cities: [],
@@ -85797,16 +85812,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mutations: {
-    getInitialContact: function getInitialContact(state) {
-      state.contact = {
-        email: '',
-        address: '',
+    getInitialAddress: function getInitialAddress(state) {
+      state.address = {
+        user_id: '',
+        address_1: '',
+        address_2: '',
         country: '',
         state: '',
         city: '',
-        zipcode: '',
-        created_at: new Date(),
-        updated_at: ''
+        zipcode: ''
       };
     },
     initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref13) {
@@ -85860,22 +85874,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setContactStatus: function setContactStatus(state) {
       return state.contactsExist = state.contacts.length > 0;
     },
-    addContact: function addContact(_ref14, _ref15) {
+    addAddress: function addAddress(state, address) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/create/address', address).then(function (res) {
+                  console.log(res.data.message);
+                  state.message = res.data.message;
+                })["catch"](function (err) {
+                  return console.error("".concat(err));
+                });
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    persistUpdate: function persistUpdate(_ref14) {
       var contacts = _ref14.contacts;
-      var contact = _ref15.contact;
-      contacts.push(contact);
     },
-    persistUpdate: function persistUpdate(_ref16) {
-      var contacts = _ref16.contacts;
-    },
-    deleteOneContact: function deleteOneContact(_ref17, _ref18) {
-      var contacts = _ref17.contacts;
-      var index = _ref18.index;
+    deleteOneContact: function deleteOneContact(_ref15, _ref16) {
+      var contacts = _ref15.contacts;
+      var index = _ref16.index;
       contacts.splice(index, 1);
       return localStorage.setItem(key, JSON.stringify(contacts));
     },
-    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref19) {
-      var contacts = _ref19.contacts;
+    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref17) {
+      var contacts = _ref17.contacts;
       contacts.length = 0;
     }
   }

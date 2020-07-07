@@ -4,6 +4,8 @@ export default {
     state: {
         contacts: [],
         contact: {},
+        address: {},
+        message: '',
         addresses: [],
         countries: [],
         cities: [],
@@ -67,16 +69,15 @@ export default {
     },
 
     mutations: {
-        getInitialContact(state) {
-            state.contact = {
-                email: '',
-                address: '',
+        getInitialAddress(state) {
+            state.address = {
+                user_id: '',
+                address_1: '',
+                address_2: '',
                 country: '',
                 state: '',
                 city: '',
-                zipcode: '',
-                created_at: new Date(),
-                updated_at: '',
+                zipcode: ''
             };
         },
 
@@ -105,8 +106,14 @@ export default {
             return (state.contactsExist = state.contacts.length > 0);
         },
 
-        addContact: ({ contacts }, { contact }) => {
-            contacts.push(contact);
+        async addAddress(state, address) {
+            // TODO: Fix the await thing;
+            await axios.post('/create/address', address )
+                .then(res => {
+                    console.log(res.data.message);
+                    state.message = res.data.message;
+                })
+                .catch(err => console.error(`${err}`));
         },
 
         persistUpdate({ contacts }) {

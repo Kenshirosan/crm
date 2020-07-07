@@ -13,7 +13,7 @@
             <th>Effacer</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="is-active">
         <DataTable
             v-for="(contact, index) in contacts"
             :key="index"
@@ -33,12 +33,6 @@
         components: { DataTable },
 
         props: ['contacts'],
-
-        mounted() {
-            setTimeout(() => {
-                document.querySelector('tbody').classList.add('is-active');
-            }, 100);
-        }
     }
 </script>
 

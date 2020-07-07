@@ -10,15 +10,6 @@
                 >
                     {{ btnText }}
                 </button>
-                <button
-                    v-if="contactsExist"
-                    type="button"
-                    id="js-clear-storage"
-                    class="btn btn-xs btn-danger mb-10"
-                    @click="deleteContacts"
-                >
-                    Supprimer tous les contacts
-                </button>
             </div>
         </div>
         <div class="form-container" :class="classes">
@@ -31,29 +22,29 @@
             >
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="email">Email</label>
+                        <label for="address_1">Address</label>
                         <input
-                            type="email"
+                            type="text"
                             class="form-control form-control-lg"
                             :class="classes"
-                            id="email"
-                            name="email"
-                            v-model="contact.email"
-                            placeholder="Email"
+                            id="address_1"
+                            name="address_1"
+                            v-model="address.address_1"
+                            placeholder="1234 Main St"
                         />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="address">Address</label>
+                        <label for="address_2">Complement Address</label>
                         <input
                             type="text"
                             class="form-control form-control-lg"
                             :class="classes"
-                            id="address"
-                            name="address"
-                            v-model="contact.address"
-                            placeholder="1234 Main St"
+                            id="address_2"
+                            name="address_2"
+                            v-model="address.address_2"
+                            placeholder="Bat, etage ..."
                         />
                     </div>
                 </div>
@@ -64,10 +55,10 @@
                             class="form-control form-control-lg"
                             :class="classes"
                             name="country"
-                            v-model="contact.country"
+                            v-model="address.country"
                             id="country">
                             <option value="">Votre Pays</option>
-                            <option v-bind:value="contact.country" v-for="country in countries" :value="country"
+                            <option v-bind:value="address.country" v-for="country in countries" :value="country"
                                     v-html="country.name"></option>
                         </select>
                     </div>
@@ -77,10 +68,10 @@
                             class="form-control form-control-lg"
                             :class="classes"
                             name="state"
-                            v-model="contact.state"
+                            v-model="address.state"
                             id="state">
                             <option value="">Votre Region</option>
-                            <option v-bind:value="contact.state" v-for="state in states" :value="state"
+                            <option v-bind:value="address.state" v-for="state in states" :value="state"
                                     v-html="state.name"></option>
                         </select>
                     </div>
@@ -90,10 +81,10 @@
                             class="form-control form-control-lg"
                             :class="classes"
                             name="city"
-                            v-model="contact.city"
+                            v-model="address.city"
                             id="city">
                             <option value="">Votre Ville</option>
-                            <option v-bind:value="contact.city" v-for="city in cities" :value="city"
+                            <option v-bind:value="address.city.name" v-for="city in cities" :value="city.name"
                                     v-html="city.name"></option>
                         </select>
                     </div>
@@ -104,7 +95,7 @@
                             name="zipcode"
                             class="form-control form-control-lg"
                             :class="classes"
-                            v-model="contact.zipcode"
+                            v-model="address.zipcode"
                             id="zipcode"
                             placeholder="12345"
                         />
@@ -148,8 +139,8 @@
         },
 
         computed: {
-            ...mapState(['contactsExist', 'contact', 'countries', 'states', 'cities']),
-            ...mapGetters(['getCountries']),
+            ...mapState(['contactsExist', 'address', 'countries', 'states', 'cities', 'message']),
+            ...mapGetters(['getCountries', 'getCountries', 'getContact']),
 
             classes() {
                 return this.isVisible ? `is-active` : ``;
@@ -166,12 +157,12 @@
         },
 
         mounted() {
-            this.getInitialContact();
+            this.getInitialAddress();
             this.getCountries();
         },
 
         watch: {
-            contact: {
+            address: {
                 handler(payload) {
                     if(payload.country) {
                         this.$store.dispatch('getStates', { id: payload.country.id });
@@ -186,8 +177,8 @@
 
         methods: {
             ...mapMutations([
-                'addContact',
-                'getInitialContact',
+                'addAddress',
+                'getInitialAddress',
                 'persistUpdate',
             ]),
 
@@ -205,33 +196,35 @@
 
                 this.$store.dispatch('initStatesAndCities');
 
-                return this.getInitialContact();
+                return this.getInitialAddress();
             },
 
             submitContact() {
-                this.checkFormFields(this.contact);
+                this.address.user_id = this.$route.params.id;
+                this.checkFormFields(this.address);
 
                 if (this.isValidForm) {
-                    this.persistForm(this.contact);
+                    this.persistForm(this.address);
                 }
             },
 
-            persistForm(contact) {
+            async persistForm(address) {
                 let message = 'Contact successfully updated';
 
                 if (this.editMode) {
-                    contact.updated_at = new Date();
-
                     this.persistUpdate();
+
                 } else {
-                    this.addContact({ contact });
+                    await this.addAddress(address);
 
                     this.$store.dispatch('setHasContacts');
 
                     message = 'Contact successfully created';
                 }
 
-                this.flash(message);
+                this.getContact({id: this.$route.params.id});
+                //TODO: Fix the message issue;
+                this.flash(this.message);
                 this.resetForm();
             },
 
@@ -243,9 +236,9 @@
                 this.flash('Contacts successfully deleted', 'primary');
             },
 
-            checkFormFields(contact) {
-                for (let field in contact) {
-                    if (contact[field] === '' && field !== 'updated_at') {
+            checkFormFields(address) {
+                for (let field in address) {
+                    if (address[field] === '') {
                         this.isValidForm = false;
                         return this.createErrorMessage(field);
                     }
@@ -267,7 +260,7 @@
             },
 
             resetForm() {
-                this.getInitialContact();
+                this.getInitialAddress();
                 this.editMode = false;
                 this.isVisible = false;
                 this.btnText = 'Ajouter un contact';

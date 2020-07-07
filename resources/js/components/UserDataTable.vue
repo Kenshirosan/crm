@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import { mapMutations, mapState, mapFilters } from 'vuex';
+    import { mapMutations, mapState } from 'vuex';
     import moment from 'moment';
     import events from '../events';
 
