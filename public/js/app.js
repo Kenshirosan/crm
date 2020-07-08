@@ -12467,6 +12467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -12515,11 +12516,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     refreshDates: function refreshDates() {
       this.refreshCreated();
       this.refreshUpdated();
-    },
-    editing: function editing() {
-      this.editingContact({
-        index: this.$props.index
-      });
     },
     deleting: function deleting() {
       this.deleteOneContact({
@@ -12629,7 +12625,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DataTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataTable */ "./resources/js/components/DataTable.vue");
-//
 //
 //
 //
@@ -13060,7 +13055,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntd[data-v-4b997e69] {\n    border: none;\n}\ntr[data-v-4b997e69] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-4b997e69] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr.is-active[data-v-4b997e69]:nth-child(even) {\n    transform: skew(15deg);\n}\ntr.is-active[data-v-4b997e69]:nth-child(odd) {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(even) div[data-v-4b997e69], tr.is-active:nth-child(even) button[data-v-4b997e69] {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(odd) div[data-v-4b997e69], tr.is-active:nth-child(odd) button[data-v-4b997e69] {\n    transform: skew(15deg);\n}\n\n", ""]);
+exports.push([module.i, "\ntd[data-v-4b997e69] {\n    border: none;\n}\ntr a[data-v-4b997e69] {\n    color: #211955;\n    text-decoration: none;\n    font-weight: bolder;\n    font-size: 2em;\n}\ntr[data-v-4b997e69] {\n    opacity: 0;\n    transform: translateX(-200px);\n    transition: all 500ms ease-in;\n}\ntr.is-active[data-v-4b997e69] {\n    transform-origin: left;\n    opacity: 1;\n}\ntr.is-active[data-v-4b997e69]:nth-child(even) {\n    transform: skew(15deg);\n}\ntr.is-active[data-v-4b997e69]:nth-child(odd) {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(even) div[data-v-4b997e69], tr.is-active:nth-child(even) button[data-v-4b997e69]:not(.edit) {\n    transform: skew(-15deg);\n}\ntr.is-active:nth-child(odd) div[data-v-4b997e69], tr.is-active:nth-child(odd) button[data-v-4b997e69]:not(.edit) {\n    transform: skew(15deg);\n}\n\n", ""]);
 
 // exports
 
@@ -67554,23 +67549,69 @@ var render = function() {
           name !== "email_verified_at"
           ? _c("td", [_c("div", [_vm._v(_vm._s(value))])])
           : name === "id"
-          ? _c("td", [
-              _c(
-                "div",
-                [
-                  name === "id"
-                    ? _c(
-                        "router-link",
-                        {
-                          attrs: { to: { name: "user", params: { id: value } } }
-                        },
-                        [_vm._v(_vm._s(value) + "\n            ")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
+          ? _c(
+              "td",
+              [
+                name === "id"
+                  ? _c(
+                      "router-link",
+                      {
+                        staticStyle: { "text-align": "center" },
+                        attrs: { to: { name: "user", params: { id: value } } }
+                      },
+                      [
+                        _c("div", [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(value) +
+                              "\n                "
+                          ),
+                          _c("button", { staticClass: "btn btn-xs edit" }, [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-pen",
+                                attrs: {
+                                  width: "2em",
+                                  height: "2em",
+                                  viewBox: "0 0 16 16",
+                                  fill: "green",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
           : name === "email_verified_at"
           ? _c("td", [
               _c("div", [_vm._v(_vm._s(_vm._f("emailVerified")(value)))])
@@ -67585,52 +67626,6 @@ var render = function() {
             ])
           : _vm._e()
       }),
-      _vm._v(" "),
-      _c("td", [
-        _c(
-          "button",
-          { staticClass: "btn btn-xs", on: { click: _vm.editing } },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-pen",
-                attrs: {
-                  width: "2em",
-                  height: "2em",
-                  viewBox: "0 0 16 16",
-                  fill: "green",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z"
-                  }
-                }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z"
-                  }
-                }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z"
-                  }
-                })
-              ]
-            )
-          ]
-        )
-      ]),
       _vm._v(" "),
       _c("td", [
         _c(
@@ -67778,7 +67773,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", { staticClass: "table-primary" }, [
-        _c("th", [_vm._v("User Number")]),
+        _c("th", [_vm._v("Editer User")]),
         _vm._v(" "),
         _c("th", [_vm._v("First Name")]),
         _vm._v(" "),
@@ -67791,8 +67786,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Creer")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mis a jour")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Editer")]),
         _vm._v(" "),
         _c("th", [_vm._v("Effacer")])
       ])

@@ -2,14 +2,13 @@
     <table class="table table-striped table-dark">
         <thead>
         <tr class="table-primary">
-            <th>User Number</th>
+            <th>Editer User</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Email Verifie</th>
             <th>Creer</th>
             <th>Mis a jour</th>
-            <th>Editer</th>
             <th>Effacer</th>
         </tr>
         </thead>
