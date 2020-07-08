@@ -12213,59 +12213,86 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.getInitialAddress();
     },
     submitContact: function submitContact() {
-      this.address.user_id = this.$route.params.id;
-      this.checkFormFields(this.address);
-
-      if (this.isValidForm) {
-        this.persistForm(this.address);
-      }
-    },
-    persistForm: function persistForm(address) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                message = 'Contact successfully updated';
+                _context.next = 2;
+                return _this2.$store.dispatch('addAddressUserId', {
+                  id: _this2.$route.params.id
+                });
 
-                if (!_this2.editMode) {
-                  _context.next = 5;
+              case 2:
+                _context.next = 4;
+                return _this2.checkFormFields(_this2.address);
+
+              case 4:
+                if (!_this2.isValidForm) {
+                  _context.next = 7;
                   break;
                 }
 
-                _this2.persistUpdate();
-
-                _context.next = 9;
-                break;
-
-              case 5:
                 _context.next = 7;
-                return _this2.addAddress(address);
+                return _this2.persistForm(_this2.address);
 
               case 7:
-                _this2.$store.dispatch('setHasContacts');
-
-                message = 'Contact successfully created';
-
-              case 9:
-                _this2.getContact({
-                  id: _this2.$route.params.id
-                }); //TODO: Fix the message issue;
-
-
-                _this2.flash(_this2.message);
-
-                _this2.resetForm();
-
-              case 12:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    persistForm: function persistForm(address) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!_this3.editMode) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                _context2.next = 3;
+                return _this3.persistUpdate();
+
+              case 3:
+                _context2.next = 9;
+                break;
+
+              case 5:
+                _context2.next = 7;
+                return _this3.addAddress(address);
+
+              case 7:
+                _context2.next = 9;
+                return _this3.$store.dispatch('setHasContacts');
+
+              case 9:
+                _context2.next = 11;
+                return _this3.getContact({
+                  id: _this3.$route.params.id
+                });
+
+              case 11:
+                _context2.next = 13;
+                return _this3.flash(_this3.message);
+
+              case 13:
+                _this3.resetForm();
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     },
     deleteContacts: function deleteContacts() {
@@ -85712,18 +85739,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   getters: {
     getContacts: function getContacts(state) {
       return /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/users').then(function (res) {
-                  state.contacts = res.data.users;
-                })["catch"](function (e) {
-                  return console.log(e.message);
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/users');
 
               case 2:
+                res = _context.sent;
+                return _context.abrupt("return", state.contacts = res.data.users);
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -85734,21 +85762,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getContact: function getContact(state) {
       return /*#__PURE__*/function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2) {
-          var id;
+          var id, res;
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
                   id = _ref2.id;
                   _context2.next = 3;
-                  return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/user/".concat(id)).then(function (res) {
-                    state.contact = res.data.user;
-                    state.addresses = res.data.user.addresses;
-                  })["catch"](function (e) {
-                    return console.log(e.message);
-                  });
+                  return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/user/".concat(id));
 
                 case 3:
+                  res = _context2.sent;
+                  state.contact = res.data.user;
+                  return _context2.abrupt("return", state.addresses = res.data.user.addresses);
+
+                case 6:
                 case "end":
                   return _context2.stop();
               }
@@ -85763,18 +85791,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getCountries: function getCountries(state) {
       return /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/countries").then(function (res) {
-                  state.countries = res.data;
-                })["catch"](function (e) {
-                  return console.log(e.message);
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/countries");
 
               case 2:
+                res = _context3.sent;
+                return _context3.abrupt("return", state.countries = res.data);
+
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -85784,30 +85813,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   actions: {
-    setHasContacts: function setHasContacts(_ref5) {
+    addAddressUserId: function addAddressUserId(_ref5, _ref6) {
       var commit = _ref5.commit;
+      var id = _ref6.id;
+      commit('setAddressUserId', id);
+    },
+    setHasContacts: function setHasContacts(_ref7) {
+      var commit = _ref7.commit;
       commit('setContactStatus');
     },
-    initStatesAndCities: function initStatesAndCities(_ref6) {
-      var commit = _ref6.commit;
+    initStatesAndCities: function initStatesAndCities(_ref8) {
+      var commit = _ref8.commit;
       commit('initStatesAndCitiesTest');
     },
-    getStates: function getStates(_ref7, _ref8) {
-      var commit = _ref7.commit;
-      var id = _ref8.id;
-      commit('getStatesTest', id);
-    },
-    getCities: function getCities(_ref9, _ref10) {
+    getStates: function getStates(_ref9, _ref10) {
       var commit = _ref9.commit;
       var id = _ref10.id;
+      commit('getStatesTest', id);
+    },
+    getCities: function getCities(_ref11, _ref12) {
+      var commit = _ref11.commit;
+      var id = _ref12.id;
       commit('getCitiesTest', id);
     },
-    deleteContacts: function deleteContacts(_ref11) {
-      var commit = _ref11.commit;
+    deleteContacts: function deleteContacts(_ref13) {
+      var commit = _ref13.commit;
       commit('deleteContactsFromLocalStorage');
     },
-    editContact: function editContact(context, _ref12) {
-      var index = _ref12.index;
+    editContact: function editContact(context, _ref14) {
+      var index = _ref14.index;
       context.state.contact = context.state.contacts[index];
     }
   },
@@ -85823,26 +85857,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         zipcode: ''
       };
     },
-    initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref13) {
-      var states = _ref13.states,
-          cities = _ref13.cities;
+    setAddressUserId: function setAddressUserId(state, id) {
+      return state.address.user_id = id;
+    },
+    initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref15) {
+      var states = _ref15.states,
+          cities = _ref15.cities;
       states.length = 0;
       cities.length = 0;
     },
     getStatesTest: function getStatesTest(state, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/states/".concat(id)).then(function (res) {
-                  state.states = res.data;
-                })["catch"](function (e) {
-                  return console.log(e.message);
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/states/".concat(id));
 
               case 2:
+                res = _context4.sent;
+                return _context4.abrupt("return", state.states = res.data);
+
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -85852,18 +85890,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getCitiesTest: function getCitiesTest(state, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/cities/".concat(id)).then(function (res) {
-                  state.cities = res.data;
-                })["catch"](function (e) {
-                  return console.log(e.message);
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/cities/".concat(id));
 
               case 2:
+                res = _context5.sent;
+                state.cities = res.data;
+
+              case 4:
               case "end":
                 return _context5.stop();
             }
@@ -85876,19 +85915,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     addAddress: function addAddress(state, address) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/create/address', address).then(function (res) {
-                  console.log(res.data.message);
-                  state.message = res.data.message;
-                })["catch"](function (err) {
-                  return console.error("".concat(err));
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/create/address', address);
 
               case 2:
+                res = _context6.sent;
+                _context6.next = 5;
+                return res.data.message;
+
+              case 5:
+                return _context6.abrupt("return", state.message = _context6.sent);
+
+              case 6:
               case "end":
                 return _context6.stop();
             }
@@ -85896,17 +85939,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6);
       }))();
     },
-    persistUpdate: function persistUpdate(_ref14) {
-      var contacts = _ref14.contacts;
+    persistUpdate: function persistUpdate(_ref16) {
+      var contacts = _ref16.contacts;
     },
-    deleteOneContact: function deleteOneContact(_ref15, _ref16) {
-      var contacts = _ref15.contacts;
-      var index = _ref16.index;
+    deleteOneContact: function deleteOneContact(_ref17, _ref18) {
+      var contacts = _ref17.contacts;
+      var index = _ref18.index;
       contacts.splice(index, 1);
       return localStorage.setItem(key, JSON.stringify(contacts));
     },
-    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref17) {
-      var contacts = _ref17.contacts;
+    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref19) {
+      var contacts = _ref19.contacts;
       contacts.length = 0;
     }
   }

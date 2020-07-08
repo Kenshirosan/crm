@@ -16,33 +16,29 @@ export default {
 
     getters: {
         getContacts: state => async () => {
-            await axios.get('/users')
-                .then(res =>  {
-                    state.contacts = res.data.users;
-                })
-                .catch(e => console.log(e.message));
+            const res = await axios.get('/users')
+            return state.contacts = res.data.users;
         },
 
         getContact: state => async ({id}) => {
-            await axios.get(`/user/${id}`)
-                .then(res =>  {
-                    state.contact = res.data.user;
-                    state.addresses = res.data.user.addresses;
-                })
-                .catch(e => console.log(e.message));
+            const res = await axios.get(`/user/${id}`)
+
+            state.contact = res.data.user;
+            return state.addresses = res.data.user.addresses;
         },
 
         getCountries: state => async () => {
-            await axios.get(`/countries`)
-                .then(res =>  {
-                    state.countries = res.data;
-                })
-                .catch(e => console.log(e.message));
+            const res = await axios.get(`/countries`)
+            return state.countries = res.data;
         },
 
     },
 
     actions: {
+        addAddressUserId({ commit }, { id }) {
+            commit('setAddressUserId', id);
+        },
+
         setHasContacts({ commit }) {
             commit('setContactStatus');
         },
@@ -81,25 +77,23 @@ export default {
             };
         },
 
+        setAddressUserId(state, id) {
+            return state.address.user_id = id;
+        },
+
         initStatesAndCitiesTest({ states, cities }) {
             states.length = 0;
             cities.length = 0;
         },
 
          async getStatesTest(state, id) {
-            await axios.get(`/states/${id}`)
-                .then(res =>  {
-                    state.states = res.data;
-                })
-                .catch(e => console.log(e.message));
+            const res = await axios.get(`/states/${id}`)
+            return state.states = res.data;
         },
 
         async getCitiesTest(state, id) {
-            await axios.get(`/cities/${id}`)
-                .then(res =>  {
-                    state.cities = res.data;
-                })
-                .catch(e => console.log(e.message));
+            const res= await axios.get(`/cities/${id}`)
+            state.cities = res.data;
         },
 
         setContactStatus(state) {
@@ -107,13 +101,9 @@ export default {
         },
 
         async addAddress(state, address) {
-            // TODO: Fix the await thing;
-            await axios.post('/create/address', address )
-                .then(res => {
-                    console.log(res.data.message);
-                    state.message = res.data.message;
-                })
-                .catch(err => console.error(`${err}`));
+            const res = await axios.post('/create/address', address );
+
+            return state.message = await res.data.message;
         },
 
         persistUpdate({ contacts }) {

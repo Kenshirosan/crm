@@ -199,32 +199,30 @@
                 return this.getInitialAddress();
             },
 
-            submitContact() {
-                this.address.user_id = this.$route.params.id;
-                this.checkFormFields(this.address);
+            async submitContact() {
+                await this.$store.dispatch('addAddressUserId', {id: this.$route.params.id});
+
+                await this.checkFormFields(this.address);
 
                 if (this.isValidForm) {
-                    this.persistForm(this.address);
+                    await this.persistForm(this.address);
                 }
             },
 
             async persistForm(address) {
-                let message = 'Contact successfully updated';
-
                 if (this.editMode) {
-                    this.persistUpdate();
+                    await this.persistUpdate();
 
                 } else {
                     await this.addAddress(address);
 
-                    this.$store.dispatch('setHasContacts');
-
-                    message = 'Contact successfully created';
+                    await this.$store.dispatch('setHasContacts');
                 }
 
-                this.getContact({id: this.$route.params.id});
-                //TODO: Fix the message issue;
-                this.flash(this.message);
+                await this.getContact({id: this.$route.params.id});
+
+                await this.flash(this.message);
+
                 this.resetForm();
             },
 
