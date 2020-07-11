@@ -5,7 +5,10 @@ export default {
         contacts: [],
         contact: {},
         address: {},
-        message: '',
+        message: {
+            message: '',
+            level: ''
+        },
         addresses: [],
         countries: [],
         cities: [],
@@ -35,6 +38,10 @@ export default {
     },
 
     actions: {
+        addAddress({ commit }, address) {
+            commit('addAddresstest', address);
+        },
+
         addAddressUserId({ commit }, { id }) {
             commit('setAddressUserId', id);
         },
@@ -67,13 +74,13 @@ export default {
     mutations: {
         getInitialAddress(state) {
             state.address = {
-                user_id: '',
-                address_1: '',
-                address_2: '',
+                user_id: '0',
+                address_1: 'test',
+                address_2: 'test',
                 country: '',
                 state: '',
-                city: '',
-                zipcode: ''
+                city: 'Marseille',
+                zipcode: '12312'
             };
         },
 
@@ -100,10 +107,16 @@ export default {
             return (state.contactsExist = state.contacts.length > 0);
         },
 
-        async addAddress(state, address) {
-            const res = await axios.post('/create/address', address );
-
-            return state.message = await res.data.message;
+        addAddresstest(state, address) {
+            axios.post('/create/address', address )
+                .then(res => {
+                    state.message.message = res.data.message;
+                    state.message.level = 'success';
+                })
+                .catch(e => {
+                    state.message.message = e;
+                    state.message.level = 'danger';
+                });
         },
 
         persistUpdate({ contacts }) {

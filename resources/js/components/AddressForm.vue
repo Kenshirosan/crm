@@ -177,7 +177,6 @@
 
         methods: {
             ...mapMutations([
-                'addAddress',
                 'getInitialAddress',
                 'persistUpdate',
             ]),
@@ -211,19 +210,18 @@
 
             async persistForm(address) {
                 if (this.editMode) {
-                    await this.persistUpdate();
-
+                    this.persistUpdate();
                 } else {
-                    await this.addAddress(address);
+                    this.$store.dispatch('addAddress', address);
 
-                    await this.$store.dispatch('setHasContacts');
+                    this.$store.dispatch('setHasContacts');
                 }
-
+                //TODO: fix the contacts and contact state as a arrays so i dont have to request
                 await this.getContact({id: this.$route.params.id});
 
-                await this.flash(this.message);
-
                 this.resetForm();
+
+                this.$nextTick(this.flash(this.message.message, this.message.level ));
             },
 
             deleteContacts() {

@@ -12201,7 +12201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       deep: true
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['addAddress', 'getInitialAddress', 'persistUpdate']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['getInitialAddress', 'persistUpdate']), {
     showForm: function showForm() {
       if (this.editMode) {
         return this.resetForm();
@@ -12254,40 +12254,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this3.editMode) {
-                  _context2.next = 5;
-                  break;
-                }
+                if (_this3.editMode) {
+                  _this3.persistUpdate();
+                } else {
+                  _this3.$store.dispatch('addAddress', address);
+
+                  _this3.$store.dispatch('setHasContacts');
+                } //TODO: fix the contacts and contact state as a arrays so i dont have to request
+
 
                 _context2.next = 3;
-                return _this3.persistUpdate();
-
-              case 3:
-                _context2.next = 9;
-                break;
-
-              case 5:
-                _context2.next = 7;
-                return _this3.addAddress(address);
-
-              case 7:
-                _context2.next = 9;
-                return _this3.$store.dispatch('setHasContacts');
-
-              case 9:
-                _context2.next = 11;
                 return _this3.getContact({
                   id: _this3.$route.params.id
                 });
 
-              case 11:
-                _context2.next = 13;
-                return _this3.flash(_this3.message);
-
-              case 13:
+              case 3:
                 _this3.resetForm();
 
-              case 14:
+                _this3.$nextTick(_this3.flash(_this3.message.message, _this3.message.level));
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -85721,7 +85707,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     contacts: [],
     contact: {},
     address: {},
-    message: '',
+    message: {
+      message: '',
+      level: ''
+    },
     addresses: [],
     countries: [],
     cities: [],
@@ -85806,56 +85795,60 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   actions: {
-    addAddressUserId: function addAddressUserId(_ref5, _ref6) {
+    addAddress: function addAddress(_ref5, address) {
       var commit = _ref5.commit;
-      var id = _ref6.id;
+      commit('addAddresstest', address);
+    },
+    addAddressUserId: function addAddressUserId(_ref6, _ref7) {
+      var commit = _ref6.commit;
+      var id = _ref7.id;
       commit('setAddressUserId', id);
     },
-    setHasContacts: function setHasContacts(_ref7) {
-      var commit = _ref7.commit;
+    setHasContacts: function setHasContacts(_ref8) {
+      var commit = _ref8.commit;
       commit('setContactStatus');
     },
-    initStatesAndCities: function initStatesAndCities(_ref8) {
-      var commit = _ref8.commit;
+    initStatesAndCities: function initStatesAndCities(_ref9) {
+      var commit = _ref9.commit;
       commit('initStatesAndCitiesTest');
     },
-    getStates: function getStates(_ref9, _ref10) {
-      var commit = _ref9.commit;
-      var id = _ref10.id;
+    getStates: function getStates(_ref10, _ref11) {
+      var commit = _ref10.commit;
+      var id = _ref11.id;
       commit('getStatesTest', id);
     },
-    getCities: function getCities(_ref11, _ref12) {
-      var commit = _ref11.commit;
-      var id = _ref12.id;
+    getCities: function getCities(_ref12, _ref13) {
+      var commit = _ref12.commit;
+      var id = _ref13.id;
       commit('getCitiesTest', id);
     },
-    deleteContacts: function deleteContacts(_ref13) {
-      var commit = _ref13.commit;
+    deleteContacts: function deleteContacts(_ref14) {
+      var commit = _ref14.commit;
       commit('deleteContactsFromLocalStorage');
     },
-    editContact: function editContact(context, _ref14) {
-      var index = _ref14.index;
+    editContact: function editContact(context, _ref15) {
+      var index = _ref15.index;
       context.state.contact = context.state.contacts[index];
     }
   },
   mutations: {
     getInitialAddress: function getInitialAddress(state) {
       state.address = {
-        user_id: '',
-        address_1: '',
-        address_2: '',
+        user_id: '0',
+        address_1: 'test',
+        address_2: 'test',
         country: '',
         state: '',
-        city: '',
-        zipcode: ''
+        city: 'Marseille',
+        zipcode: '12312'
       };
     },
     setAddressUserId: function setAddressUserId(state, id) {
       return state.address.user_id = id;
     },
-    initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref15) {
-      var states = _ref15.states,
-          cities = _ref15.cities;
+    initStatesAndCitiesTest: function initStatesAndCitiesTest(_ref16) {
+      var states = _ref16.states,
+          cities = _ref16.cities;
       states.length = 0;
       cities.length = 0;
     },
@@ -85906,43 +85899,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setContactStatus: function setContactStatus(state) {
       return state.contactsExist = state.contacts.length > 0;
     },
-    addAddress: function addAddress(state, address) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/create/address', address);
-
-              case 2:
-                res = _context6.sent;
-                _context6.next = 5;
-                return res.data.message;
-
-              case 5:
-                return _context6.abrupt("return", state.message = _context6.sent);
-
-              case 6:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
+    addAddresstest: function addAddresstest(state, address) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/create/address', address).then(function (res) {
+        state.message.message = res.data.message;
+        state.message.level = 'success';
+      })["catch"](function (e) {
+        state.message.message = e;
+        state.message.level = 'danger';
+      });
     },
-    persistUpdate: function persistUpdate(_ref16) {
-      var contacts = _ref16.contacts;
-    },
-    deleteOneContact: function deleteOneContact(_ref17, _ref18) {
+    persistUpdate: function persistUpdate(_ref17) {
       var contacts = _ref17.contacts;
-      var index = _ref18.index;
+    },
+    deleteOneContact: function deleteOneContact(_ref18, _ref19) {
+      var contacts = _ref18.contacts;
+      var index = _ref19.index;
       contacts.splice(index, 1);
       return localStorage.setItem(key, JSON.stringify(contacts));
     },
-    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref19) {
-      var contacts = _ref19.contacts;
+    deleteContactsFromLocalStorage: function deleteContactsFromLocalStorage(_ref20) {
+      var contacts = _ref20.contacts;
       contacts.length = 0;
     }
   }
