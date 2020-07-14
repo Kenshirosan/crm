@@ -1,10 +1,11 @@
 import Vue from 'vue';
 
+// Event bus
 window.events = new Vue();
 
 export default {
     methods: {
-        editingContact: function(payload) {
+        editingContact(payload) {
             window.events.$emit('editing', payload);
         },
 

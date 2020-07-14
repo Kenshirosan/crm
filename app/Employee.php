@@ -32,7 +32,7 @@ class Employee extends User
 
     public function isOwner()
     {
-        return $this->email = 'l.neveux@icloud.com';
+        return $this->email === 'l.neveux@icloud.com';
     }
 
     public function abilities()

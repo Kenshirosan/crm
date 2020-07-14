@@ -7,7 +7,7 @@ export default {
         address: {},
         message: {
             message: '',
-            level: ''
+            level: '',
         },
         addresses: [],
         countries: [],
@@ -19,22 +19,21 @@ export default {
 
     getters: {
         getContacts: state => async () => {
-            const res = await axios.get('/users')
-            return state.contacts = res.data.users;
+            const res = await axios.get('/users');
+            return (state.contacts = res.data.users);
         },
 
-        getContact: state => async ({id}) => {
-            const res = await axios.get(`/user/${id}`)
+        getContact: state => async ({ id }) => {
+            const res = await axios.get(`/user/${id}`);
 
             state.contact = res.data.user;
-            return state.addresses = res.data.user.addresses;
+            return (state.addresses = res.data.user.addresses);
         },
 
         getCountries: state => async () => {
-            const res = await axios.get(`/countries`)
-            return state.countries = res.data;
+            const res = await axios.get(`/countries`);
+            return (state.countries = res.data);
         },
-
     },
 
     actions: {
@@ -80,12 +79,12 @@ export default {
                 country: '',
                 state: '',
                 city: 'Marseille',
-                zipcode: '12312'
+                zipcode: '12312',
             };
         },
 
         setAddressUserId(state, id) {
-            return state.address.user_id = id;
+            return (state.address.user_id = id);
         },
 
         initStatesAndCitiesTest({ states, cities }) {
@@ -93,13 +92,13 @@ export default {
             cities.length = 0;
         },
 
-         async getStatesTest(state, id) {
-            const res = await axios.get(`/states/${id}`)
-            return state.states = res.data;
+        async getStatesTest(state, id) {
+            const res = await axios.get(`/states/${id}`);
+            return (state.states = res.data);
         },
 
         async getCitiesTest(state, id) {
-            const res= await axios.get(`/cities/${id}`)
+            const res = await axios.get(`/cities/${id}`);
             state.cities = res.data;
         },
 
@@ -108,7 +107,8 @@ export default {
         },
 
         addAddresstest(state, address) {
-            axios.post('/create/address', address )
+            axios
+                .post('/create/address', address)
                 .then(res => {
                     state.message.message = res.data.message;
                     state.message.level = 'success';
@@ -119,8 +119,7 @@ export default {
                 });
         },
 
-        persistUpdate({ contacts }) {
-        },
+        persistUpdate({ contacts }) {},
 
         deleteOneContact({ contacts }, { index }) {
             contacts.splice(index, 1);
@@ -130,7 +129,6 @@ export default {
 
         deleteContactsFromLocalStorage({ contacts }) {
             contacts.length = 0;
-
         },
     },
 };

@@ -3,9 +3,14 @@ import Vuex from 'vuex';
 import store from './store';
 import VueRouter from 'vue-router';
 import router from './routes';
-import moment from 'moment';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserSecret, faEnvelope, faAddressBook, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUserSecret,
+    faEnvelope,
+    faAddressBook,
+    faUser,
+    faUserLock,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import filters from './filters';
 
@@ -15,7 +20,8 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
-for(let f of filters) {
+// register filters in Vue instance
+for (let f of filters) {
     Vue.filter(f.name, f.execute);
 }
 
@@ -42,8 +48,6 @@ Vue.component('flash', require('./components/Flash.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-
 
 const app = new Vue({
     el: '#app',

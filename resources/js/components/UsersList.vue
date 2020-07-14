@@ -3,9 +3,7 @@
         <div class="container mt-10">
             <section v-if="contactsExist">
                 <h2>{{ userCount }} utilisateurs</h2>
-                <Table
-                    :contacts="contacts"
-                ></Table>
+                <Table :contacts="contacts"></Table>
             </section>
 
             <section class="row" v-else>
@@ -39,55 +37,13 @@
 
             userCount() {
                 return this.contacts.length;
-            }
+            },
         },
 
         async mounted() {
             await this.getContacts();
 
             this.$store.dispatch('setHasContacts');
-
         },
-
     };
 </script>
-
-<style>
-    body {
-        background-color: #2c3e50;
-        /*overflow: hidden;*/
-    }
-    .app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
-        transition: all 250ms ease-in;
-        margin-top: 200px;
-        opacity: 0;
-    }
-    .app.is-active {
-        opacity: 1;
-        margin-top: 0;
-    }
-    .mb-10 {
-        margin-bottom: 10px;
-    }
-
-    .mb-5-percent {
-        margin-bottom: 5%;
-    }
-
-    .mt-10 {
-        margin-top: 10px;
-    }
-
-    h3, h2 {
-        margin: 40px 0 0;
-        color: white;
-    }
-
-    #js-contact-list {
-        width: 100%;
-    }
-</style>

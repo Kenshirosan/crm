@@ -7,11 +7,7 @@
 
     export default {
         components: {
-            userslist
-        }
-    }
+            userslist,
+        },
+    };
 </script>
-
-<style scoped>
-
-</style>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
@@ -13,8 +12,9 @@ class UsersController extends Controller
         $users = DB::select('
             SELECT
                 id,
-                name,
-                last_name,
+                CONCAT(name,
+                \' \',
+                last_name) AS fullname,
                 email,
                 email_verified_at,
                 created_at,
@@ -31,7 +31,9 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        $user = User::where('id', $id)->with('addresses')->firstOrFail();
+        $user = User::where('id', $id)->with(['addresses' => function($query) {
+            $query->select('id', 'address_1', 'address_2', 'zipcode', 'city', 'state', 'country', 'addresses.created_at', 'addresses.updated_at');
+        }])->firstOrFail();
 
         return response(compact('user'), 200);
     }

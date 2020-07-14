@@ -12,9 +12,9 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-
+//https://laravel.com/docs/7.x/authentication#adding-custom-guards
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'custom',
         'passwords' => 'employees',
     ],
 
@@ -43,7 +43,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'employees',
+            'provider' => 'users',
         ],
 
         'custom' => [
@@ -85,7 +85,7 @@ return [
          'employees' => [
              'driver' => 'eloquent',
              'model' => App\Employee::class,
-             'table' => 'users',
+             'table' => 'employees',
          ],
     ],
 
@@ -106,7 +106,7 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'employees',
+            'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

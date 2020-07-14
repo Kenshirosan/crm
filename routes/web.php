@@ -18,5 +18,7 @@ Route::middleware(['auth', 'can:edit_user'])->group(function () {
 Route::get('/countries', 'AddressesController@getCountries');
 Route::get('/states/{id}', 'AddressesController@getStates');
 Route::get('/cities/{id}', 'AddressesController@getCities');
+
+//TODO: manual registration and login / logout
 Auth::routes();
 

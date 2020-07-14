@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="form-container" :class="classes">
-            <h3 :class="classes" v-if="! editMode">Ajouter un contact</h3>
+            <h3 :class="classes" v-if="!editMode">Ajouter un contact</h3>
             <h3 :class="classes" v-if="editMode">Edition</h3>
             <form
                 :class="classes"
@@ -56,10 +56,15 @@
                             :class="classes"
                             name="country"
                             v-model="address.country"
-                            id="country">
+                            id="country"
+                        >
                             <option value="">Votre Pays</option>
-                            <option v-bind:value="address.country" v-for="country in countries" :value="country"
-                                    v-html="country.name"></option>
+                            <option
+                                v-bind:value="address.country"
+                                v-for="country in countries"
+                                :value="country"
+                                v-html="country.name"
+                            ></option>
                         </select>
                     </div>
                     <div class="form-group col-md-6" v-if="states.length > 0">
@@ -69,10 +74,15 @@
                             :class="classes"
                             name="state"
                             v-model="address.state"
-                            id="state">
+                            id="state"
+                        >
                             <option value="">Votre Region</option>
-                            <option v-bind:value="address.state" v-for="state in states" :value="state"
-                                    v-html="state.name"></option>
+                            <option
+                                v-bind:value="address.state"
+                                v-for="state in states"
+                                :value="state"
+                                v-html="state.name"
+                            ></option>
                         </select>
                     </div>
                     <div class="form-group col-md-6" v-if="cities.length > 0">
@@ -82,10 +92,15 @@
                             :class="classes"
                             name="city"
                             v-model="address.city"
-                            id="city">
+                            id="city"
+                        >
                             <option value="">Votre Ville</option>
-                            <option v-bind:value="address.city.name" v-for="city in cities" :value="city.name"
-                                    v-html="city.name"></option>
+                            <option
+                                v-bind:value="address.city.name"
+                                v-for="city in cities"
+                                :value="city.name"
+                                v-html="city.name"
+                            ></option>
                         </select>
                     </div>
                     <div class="form-group col-md-2">
@@ -139,12 +154,19 @@
         },
 
         computed: {
-            ...mapState(['contactsExist', 'address', 'countries', 'states', 'cities', 'message']),
+            ...mapState([
+                'contactsExist',
+                'address',
+                'countries',
+                'states',
+                'cities',
+                'message',
+            ]),
             ...mapGetters(['getCountries', 'getCountries', 'getContact']),
 
             classes() {
                 return this.isVisible ? `is-active` : ``;
-            }
+            },
         },
 
         created() {
@@ -164,25 +186,26 @@
         watch: {
             address: {
                 handler(payload) {
-                    if(payload.country) {
-                        this.$store.dispatch('getStates', { id: payload.country.id });
+                    if (payload.country) {
+                        this.$store.dispatch('getStates', {
+                            id: payload.country.id,
+                        });
                     }
-                    if(payload.state) {
-                        this.$store.dispatch('getCities', { id: payload.state.id });
+                    if (payload.state) {
+                        this.$store.dispatch('getCities', {
+                            id: payload.state.id,
+                        });
                     }
                 },
                 deep: true,
-            }
+            },
         },
 
         methods: {
-            ...mapMutations([
-                'getInitialAddress',
-                'persistUpdate',
-            ]),
+            ...mapMutations(['getInitialAddress', 'persistUpdate']),
 
             showForm() {
-                if(this.editMode) {
+                if (this.editMode) {
                     return this.resetForm();
                 }
 
@@ -199,7 +222,9 @@
             },
 
             async submitContact() {
-                await this.$store.dispatch('addAddressUserId', {id: this.$route.params.id});
+                await this.$store.dispatch('addAddressUserId', {
+                    id: this.$route.params.id,
+                });
 
                 await this.checkFormFields(this.address);
 
@@ -217,11 +242,11 @@
                     this.$store.dispatch('setHasContacts');
                 }
                 //TODO: fix the contacts and contact state as a arrays so i dont have to request
-                await this.getContact({id: this.$route.params.id});
+                await this.getContact({ id: this.$route.params.id });
 
                 this.resetForm();
 
-                this.$nextTick(this.flash(this.message.message, this.message.level ));
+                this.flash(this.message.message, this.message.level);
             },
 
             deleteContacts() {
@@ -292,13 +317,13 @@
         transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);
     }
 
-    .form-container, form {
+    .form-container,
+    form {
         overflow: hidden;
         transform-origin: center;
         opacity: 0;
         transform: rotate(90deg) scale(0.5) translate(100px, -300px);
         transition: all 500ms cubic-bezier(0, 0.6, 0.35, 1.4);
-
     }
 
     form {
@@ -309,7 +334,9 @@
         z-index: 1000;
     }
 
-    .form-container.is-active, form.is-active, form.is-active h3 {
+    .form-container.is-active,
+    form.is-active,
+    form.is-active h3 {
         z-index: 1000;
         opacity: 1;
         transform: rotate(0deg) scale(1);

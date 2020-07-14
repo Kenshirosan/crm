@@ -4,6 +4,7 @@
 body {
     background-color: $body-bg;
     color: $text;
+    /*overflow: hidden;*/
 }
 
 ul, li {
@@ -18,12 +19,29 @@ ul, li {
     color: $text;
 }
 
-.mt-10 {
-    margin-top: 10px;
+.app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    transition: all 250ms ease-in;
+    margin-top: 200px;
+    opacity: 0;
+}
+.app.is-active {
+    opacity: 1;
+    margin-top: 0;
+}
+.mb-5-percent {
+    margin-bottom: 5%;
 }
 
 .mb-10 {
     margin-bottom: 10px;
+}
+
+.mt-10 {
+    margin-top: 10px;
 }
 
 .mt-20 {
@@ -34,5 +52,34 @@ ul, li {
     margin-bottom: 20px;
 }
 
+h3, h2 {
+    margin: 40px 0 0;
+    color: white;
+}
+
+#js-contact-list {
+    width: 100%;
+}
 
 
+//
+table {
+    overflow: hidden;
+}
+
+tbody {
+    overflow: hidden;
+    transform: translateX(-200px);
+    transform-origin: left;
+    opacity: 0;
+    transition: all 100ms ease-in-out 350ms;
+}
+
+tbody.is-active {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+
+
+//

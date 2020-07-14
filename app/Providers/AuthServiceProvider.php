@@ -25,8 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+// Simple authorization with gates
+// Gate::before('accessing the route');
         Gate::before(function(Employee $employee, $ability) {
+            /**
+             * Check if current employee can access the
+             */
             return $employee->abilities()->contains($ability);
         });
     }
