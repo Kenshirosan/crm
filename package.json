@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "axios": "^0.19",
-        "browser-sync": "^2.26.7",
+        "browser-sync": "^2.26.12",
         "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
@@ -20,12 +20,12 @@
         "sass": "^1.26.10",
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
-        "vue-router": "^3.3.4",
+        "vue-router": "^3.4.1",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.29",
-        "@fortawesome/free-solid-svg-icons": "^5.13.1",
+        "@fortawesome/fontawesome-svg-core": "^1.2.30",
+        "@fortawesome/free-solid-svg-icons": "^5.14.0",
         "@fortawesome/vue-fontawesome": "^0.1.10",
         "moment": "^2.27.0",
         "vuex": "^3.5.1"
