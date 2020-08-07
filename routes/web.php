@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'can:edit_user'])->group(function () {
+Route::middleware(['auth', 'can:see_user'])->group(function() {
     Route::get('/home', 'HomeController@index');
-
     Route::get('/', 'PagesController@index');
+
+});
+
+Route::middleware(['auth', 'can:edit_user'])->group(function () {
     Route::get('/users', 'UsersController@index')->name('home');
     Route::get('/user/{id}', 'UsersController@show')->name('user');
 
